@@ -24,6 +24,36 @@ public static class EditorTools
         Debug.Log($"Converted { xml } xml files.");
     }
 
+    [MenuItem("DTXMania/BuildSelectAsFont")]
+    static void BuildSelectAsFont()
+    {
+        var texture2D = Selection.activeObject as Texture2D;
+        if (!texture2D) throw new System.Exception("You should select a yaml text file to build font.");
+
+        var path = EditorUtility.SaveFilePanelInProject("Save font", texture2D.name, "fontsettings", "");
+        if (string.IsNullOrEmpty(path)) return;
+
+        int width = 0, height = 0;
+        var assetPath = AssetDatabase.GetAssetPath(texture2D);
+        var ai = AssetImporter.GetAtPath(assetPath) as ISpriteEditorDataProvider;
+        ai.InitSpriteEditorDataProvider();
+        var textureProvider = ai.GetDataProvider<ITextureDataProvider>();
+        textureProvider.GetTextureActualWidthAndHeight(out width, out height);
+
+        var font = new Font(texture2D.name);
+        font.characterInfo = ai.GetSpriteRects()
+            .Select(sp => new CharacterInfo
+            {
+                index = sp.name[0],
+                uvBottomLeft = new Vector2(sp.rect.xMin / width, sp.rect.yMin / height),
+                uvTopRight = new Vector2(sp.rect.xMax / width, sp.rect.yMax / height),
+                maxX = Mathf.RoundToInt(sp.rect.width),
+                minY = -Mathf.RoundToInt(sp.rect.height),
+                advance = Mathf.RoundToInt(sp.rect.width),
+            }).ToArray();
+        AssetDatabase.CreateAsset(font, path);
+    }
+
     static bool ConvertYaml(string path)
     {
         // LeftCymbal: [1, 0, 91, 98]
