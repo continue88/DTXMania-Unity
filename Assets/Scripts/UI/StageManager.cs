@@ -9,6 +9,11 @@ public class StageManager
 
     public Stage CurrentStage { get; private set; }
 
+    /// <summary>
+    /// open a stage.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public T Open<T>() where T : Stage, new()
     {
         var name = typeof(T).Name;
