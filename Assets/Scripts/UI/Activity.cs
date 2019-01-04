@@ -18,8 +18,18 @@ public class Activity
 
     }
 
+    public virtual void OnClose()
+    {
+
+    }
+
     public virtual void Update()
     {
 
+    }
+
+    protected void StartCoroutine(IEnumerator corutin)
+    {
+        MainScript.Instance.StartCoroutine(corutin);
     }
 }

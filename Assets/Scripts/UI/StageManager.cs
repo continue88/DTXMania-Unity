@@ -15,7 +15,7 @@ public class StageManager
         var prefab = Resources.Load<GameObject>(name);
         if (!prefab)
         {
-            Debug.LogError("Fail to load prefab data.");
+            Debug.LogError("Fail to load prefab data: " + name);
             return null;
         }
 
@@ -24,11 +24,24 @@ public class StageManager
 
         var stage = new T();
         stage.GameObject = instance;
+
+        CurrentStage = stage;
+
         stage.OnOpen();
         return stage;
     }
 
-    public void Close()
+    public void Update()
     {
+        if (CurrentStage != null)
+            CurrentStage.Update();
+    }
+
+    public void Close(Stage stage)
+    {
+        if (stage == CurrentStage) CurrentStage = null;
+        if (stage.GameObject) Object.Destroy(stage.GameObject);
+        stage.GameObject = null;
+        stage.OnClose();
     }
 }

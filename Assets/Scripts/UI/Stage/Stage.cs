@@ -9,4 +9,9 @@ public class Stage : Activity
     {
 
     }
+
+    public void Close()
+    {
+        StageManager.Instance.Close(this);
+    }
 }
