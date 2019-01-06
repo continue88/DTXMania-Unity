@@ -24,6 +24,14 @@ public static class EditorTools
         Debug.Log($"Converted { xml } xml files.");
     }
 
+    [MenuItem("DTXMania/ConvertSelectYaml")]
+    static void ConvertSelectYaml()
+    {
+        var assetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+        var yamlPath = Application.dataPath + assetPath.Substring("Assets".Length);
+        ConvertYaml(yamlPath);
+    }
+
     [MenuItem("DTXMania/BuildSelectAsFont")]
     static void BuildSelectAsFont()
     {

@@ -21,6 +21,24 @@ public class PlayingStage : Stage
         }
     }
 
+    void UpdateChips()
+    {
+        var playintTime = GetElapsedTimeForStartPlaying();
+        var userSettings = UserManager.Instance.LoggedOnUser;
+        ForAllChipsDrawing(playintTime, (chip, index, drawingTime, utterTime, judgeDistance) =>
+        {
+            if (chip.ChipType == ChipType.BarLine)
+            {
+
+            }
+            else if (chip.ChipType == ChipType.BeatLine)
+            {
+
+            }
+            var drumChipProperty = userSettings.DrumChipProperty[chip.ChipType];
+        });
+    }
+
     void UpdateInput()
     {
         var playintTime = GetElapsedTimeForStartPlaying();
@@ -44,12 +62,12 @@ public class PlayingStage : Stage
             var speed = AppMain.Instance.InterpSpeed;
             double pixelDistance = this.GetPixleDistanceOnTime(speed, drawingTime);
 
-            // 終了判定。
-            bool aboveTopScreen = ((hitJudgPosY + pixelDistance) < -40.0);   // -40 はチップが隠れるであろう適当なマージン。
+            // current chip is outof screen, stop processing.
+            bool aboveTopScreen = ((hitJudgPosY + pixelDistance) < -40.0);
             if (aboveTopScreen)
                 break;
 
-            // 処理実行。開始判定（描画開始チップ番号の更新）もこの中で。
+            // apply action to the drawing chips.
             applyAction(chip, i, drawingTime, utterTime, pixelDistance);
         }
     }
