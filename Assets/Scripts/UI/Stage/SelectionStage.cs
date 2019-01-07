@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class SelectionStage : Stage
 {
+    SongList mSongList;
+
     public override void OnOpen()
     {
         base.OnOpen();
 
-        UserManager.Instance.UserList.SelectFirst();
+        mSongList = AddChild(new SongList(FindChild("SongList").gameObject));
     }
 
     public override void Update()
