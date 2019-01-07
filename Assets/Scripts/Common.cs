@@ -137,3 +137,12 @@ public enum MuteGroupType
     RightCymbal,
     HiHat,
 }
+
+public enum JudgmentType
+{
+    PERFECT,
+    GREAT,
+    GOOD,
+    OK,
+    MISS,
+}

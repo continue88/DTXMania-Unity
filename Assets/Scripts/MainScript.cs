@@ -5,6 +5,7 @@ using UnityEngine;
 public class MainScript : MonoBehaviour
 {
     public Transform UIRoot;
+    public DrumSound DrumSound;
 
     public static MainScript Instance { get; private set; }
 
@@ -13,6 +14,8 @@ public class MainScript : MonoBehaviour
     {
         Instance = this;
         DontDestroyOnLoad(this);
+
+        if (!DrumSound) DrumSound = GetComponent<DrumSound>();
 
         StageManager.Instance.Open<LaunchStage>();
     }

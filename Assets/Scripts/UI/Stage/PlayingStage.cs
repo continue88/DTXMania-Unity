@@ -8,6 +8,7 @@ public class PlayingStage : Stage
     int mStartDrawNumber = 0;
     ChipsPanel mChipsPanel;
     DrumPad mDrumPad;
+    Dictionary<Chip, ChipPlayingState> mChipPlayingState = new Dictionary<Chip, ChipPlayingState>();
 
     public const float hitJudgPosY = 847f;
 
@@ -17,12 +18,20 @@ public class PlayingStage : Stage
 
         mChipsPanel = AddChild(new ChipsPanel(this, FindChild("CenterPanel/ChipsPanel").gameObject));
         mDrumPad = AddChild(new DrumPad(this, FindChild("CenterPanel/DrumPad").gameObject));
+
+        foreach (var chip in AppMain.Instance.PlayingScore.ChipList)
+            mChipPlayingState.Add(chip, new ChipPlayingState(chip));
     }
 
     public override void Update()
     {
         base.Update();
-        
+
+        CheckInput();
+    }
+
+    private void CheckInput()
+    {
         if (InputManager.Instance.HasCancle())
         {
             StageManager.Instance.Open<SelectionStage>();
@@ -66,5 +75,74 @@ public class PlayingStage : Stage
     public float GetElapsedTimeForStartPlaying()
     {
         return 0;
+    }
+
+    void OnChipHitted(Chip chip, JudgmentType judgeType, bool playSound, bool judge, bool hide, double time)
+    {
+        mChipPlayingState[chip].Hitted = true;
+        if (playSound && (judgeType != JudgmentType.MISS))
+        {
+            if (!mChipPlayingState[chip].Uttered)
+            {
+                UtterChip(chip);
+                mChipPlayingState[chip].Uttered = true;
+            }
+        }
+        if (judge)
+        {
+            var drumChipProperty = UserManager.Instance.LoggedOnUser.DrumChipProperty[chip.ChipType];
+
+            //if (judgeType != JudgmentType.MISS)
+            //{
+            //    // MISS以外（PERFECT～OK）
+            //    this.mChipLight.StartViewing(対応表.DisplayTrackType);
+            //    this.mDrumPad.OnHit(対応表.DisplayTrackType);
+            //    this.mTrackFlash.開始する(対応表.DisplayTrackType);
+            //}
+
+            //this.mResultTextColumn.表示を開始する(対応表.DisplayTrackType, judgeType);
+            //this.Results.ヒット数を加算する(judgeType);
+            ////----------------
+            //#endregion
+        }
+        if (hide)
+        {
+            if (judgeType == JudgmentType.MISS)
+            {
+                // MISSチップは最後まで表示し続ける。
+            }
+            else
+            {
+                // PERFECT～POOR チップは非表示。
+                mChipPlayingState[chip].Visiable = false;
+            }
+        }
+    }
+
+    void UtterChip(Chip chip)
+    {
+        if (chip.ChipType == ChipType.BackGroundMovie)
+        {
+            // TODO: play avi movie.
+        }
+        else if (chip.SubChipId == 0)
+        {
+            var prop = UserManager.Instance.LoggedOnUser.DrumChipProperty[chip.ChipType];
+            MainScript.Instance.DrumSound.PlaySound(
+                chip.ChipType,
+                prop.MuteBeforeUtter,
+                prop.MuteGroupType,
+                chip.Volume / (float)Chip.MaxVolume);
+        }
+        else
+        {
+            var prop = UserManager.Instance.LoggedOnUser.DrumChipProperty[chip.ChipType];
+            WAVManager.Instance.PlaySound(
+                chip.SubChipId,
+                chip.ChipType,
+                prop.MuteBeforeUtter,
+                prop.MuteGroupType,
+                chip.Volume / (float)Chip.MaxVolume);
+        }
     }
 }
