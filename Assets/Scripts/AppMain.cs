@@ -9,5 +9,5 @@ public class AppMain
     private AppMain() { }
 
     public Score PlayingScore { get; private set; }
-    public double InterpSpeed { get; private set; } = 1.0;
+    public float InterpSpeed { get; private set; } = 1.0f;
 }
