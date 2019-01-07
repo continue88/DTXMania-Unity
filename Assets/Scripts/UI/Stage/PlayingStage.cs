@@ -82,10 +82,10 @@ public class PlayingStage : Stage
         mChipPlayingState[chip].Hitted = true;
         if (playSound && (judgeType != JudgmentType.MISS))
         {
-            if (!mChipPlayingState[chip].Uttered)
+            if (!mChipPlayingState[chip].SoundPlayed)
             {
-                UtterChip(chip);
-                mChipPlayingState[chip].Uttered = true;
+                PlayChipSound(chip);
+                mChipPlayingState[chip].SoundPlayed = true;
             }
         }
         if (judge)
@@ -119,7 +119,7 @@ public class PlayingStage : Stage
         }
     }
 
-    void UtterChip(Chip chip)
+    void PlayChipSound(Chip chip)
     {
         if (chip.ChipType == ChipType.BackGroundMovie)
         {

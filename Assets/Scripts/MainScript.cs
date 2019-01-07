@@ -6,8 +6,10 @@ public class MainScript : MonoBehaviour
 {
     public Transform UIRoot;
     public DrumSound DrumSound;
+    public string[] MusicFolders;
 
     public static MainScript Instance { get; private set; }
+    public MusicTree MusicTree { get; } = new MusicTree();
 
     // Use this for initialization
     void Start ()

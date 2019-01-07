@@ -13,8 +13,8 @@ public class ChipPlayingState : System.ICloneable
     public bool Hitted { get; set; } = false;
     public bool NotHitted { get { return !Hitted; } set { Hitted = !value; } }
 
-    public bool Uttered { get; set; } = false;
-    public bool InUttered { get { return !Uttered; } set { Uttered = !value; } }
+    public bool SoundPlayed { get; set; } = false;
+    public bool InUttered { get { return !SoundPlayed; } set { SoundPlayed = !value; } }
 
 
     public ChipPlayingState(Chip chip)
@@ -27,14 +27,14 @@ public class ChipPlayingState : System.ICloneable
     {
         Visiable = (UserManager.Instance.LoggedOnUser.DrumChipProperty[mChip.ChipType].DisplayChipType != DisplayChipType.Unknown);
         Hitted = false;
-        Uttered = false;
+        SoundPlayed = false;
     }
 
     public void HitStatus()
     {
         Visiable = false;
         Hitted = true;
-        Uttered = true;
+        SoundPlayed = true;
     }
 
     // IClonable 実装
