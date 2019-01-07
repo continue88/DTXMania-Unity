@@ -31,7 +31,7 @@ public class PlayingStage : Stage
         }
     }
 
-    public void ForAllChipsDrawing(ChipType filter, System.Action<Chip, int, float, float, float> applyAction)
+    public void ForAllChipsDrawing(ChipType chipType, System.Action<Chip, int, float, float, float> applyAction)
     {
         var score = AppMain.Instance.PlayingScore;
         if (score == null) return;
@@ -40,7 +40,7 @@ public class PlayingStage : Stage
         for (var i = mStartDrawNumber; i >= 0 && i < score.ChipList.Count; i++)
         {
             var chip = score.ChipList[i];
-            if (chip.ChipType != filter) continue;
+            if (chip.ChipType != chipType) continue;
 
             var drawingTime = playingTime - (float)chip.DrawTimeSec;
             var utterTime = playingTime - (float)chip.UtterTimeSec;

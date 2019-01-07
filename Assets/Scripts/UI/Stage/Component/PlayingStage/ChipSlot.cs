@@ -24,6 +24,7 @@ public class ChipSlot : Activity
         base.OnOpen();
 
         mChipTemplate = FindChild("Chip");
+        if (!mChipTemplate) Debug.LogError("There is no child name: [Chip]", GameObject);
         mChipTemplate.gameObject.SetActive(false); // deactive it for template.
     }
 
@@ -62,8 +63,22 @@ public class ChipSlot : Activity
         if (mChipNodeMap.TryGetValue(chip, out retNode))
             return retNode;
 
+        // first try to find a disabled node to reuse.
+        for (var i = 0; i < mChipTemplate.parent.childCount; i++)
+        {
+            var childNode = mChipTemplate.parent.GetChild(i);
+            if (!childNode.gameObject.activeSelf)
+            {
+                retNode = childNode;
+                break;
+            }
+        }
+
         // create a new node base on the template.
-        retNode = Object.Instantiate(mChipTemplate.gameObject, mChipTemplate.parent).transform;
+        if (retNode == null)
+            retNode = Object.Instantiate(mChipTemplate.gameObject, mChipTemplate.parent).transform;
+
+        // active this node now.
         retNode.gameObject.SetActive(true);
 
         // setup barline number if this chip is a bar line.

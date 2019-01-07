@@ -7,7 +7,7 @@ public class Activity
     GameObject mGameObject;
 
     public Activity Parent { get; private set; } = null;
-    public GameObject GameObject { get { return mGameObject; } set { mGameObject = value; Transform = mGameObject.transform; } }
+    public GameObject GameObject { get { return mGameObject; } set { mGameObject = value; Transform = mGameObject?.transform; } }
     public Transform Transform { get; private set; }
 
     protected List<Activity> ChildList { get; private set; } = new List<Activity>();

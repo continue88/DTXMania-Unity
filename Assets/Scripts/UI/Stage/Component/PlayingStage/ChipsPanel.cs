@@ -8,7 +8,6 @@ using SSTFormat.v4;
 public class ChipsPanel : Activity
 {
     readonly PlayingStage mPlayingStage;
-    Dictionary<DisplayChipType, ChipSlot> mChipSlots = new Dictionary<DisplayChipType, ChipSlot>();
 
     public ChipsPanel(PlayingStage playingStage, GameObject gameObject)
         : base(gameObject)
@@ -20,6 +19,10 @@ public class ChipsPanel : Activity
     {
         base.OnOpen();
 
+        // disable all child first.
+        for (var i = 0; i < Transform.childCount; i++)
+            Transform.GetChild(i).gameObject.SetActive(false);
+
         // get the chip slots.
         var userSettings = UserManager.Instance.LoggedOnUser;
         foreach (var value in Enum.GetValues(typeof(ChipType)))
@@ -29,6 +32,8 @@ public class ChipsPanel : Activity
                 userSettings.DrumChipProperty[chipType].DisplayChipType.ToString();
             var childNode = FindChild(displayName);
             if (!childNode) continue;
+            // active for this child.
+            childNode.gameObject.SetActive(true);
             AddChild(new ChipSlot(childNode.gameObject, mPlayingStage, chipType));
         }
     }
