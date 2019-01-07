@@ -24,7 +24,6 @@ public class LaunchStage : Stage
                 foreach (var file in Directory.GetFiles(folder, "*" + ext, SearchOption.AllDirectories))
                 {
                     yield return new WaitForEndOfFrame();
-                    Debug.Log("loading file: " + file);
                     MainScript.Instance.MusicTree.AddMusicNode(file);
                 }
             }

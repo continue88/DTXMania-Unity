@@ -15,8 +15,16 @@ public class MusicTree
         if (parentNode == null)
             parentNode = Root;
 
-        var music = new MusicNode(file, parentNode);
-        parentNode.ChildNodeList.Add(music);
-        return music;
+        try
+        {
+            var music = new MusicNode(file, parentNode);
+            parentNode.ChildNodeList.Add(music);
+            return music;
+        }
+        catch
+        {
+            Debug.LogError("Fail to load music file: " + file);
+            return null;
+        }
     }
 }
