@@ -79,6 +79,7 @@ public class WAVManager : MonoBehaviour
                 var audioSource = go.AddComponent<AudioSource>();
                 audioSource.playOnAwake = false;
                 audioSource.clip = audioClip;
+                mAudioSources[i] = audioSource;
             }   
         }
 

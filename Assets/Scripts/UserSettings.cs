@@ -17,10 +17,10 @@ public class UserSettings
     public bool AutoPlay_LowTom = true;
     public bool AutoPlay_FloorTom = true;
     public bool AutoPlay_RightCymbal = true;
-    public double MaxRange_Perfect = 0.034;
-    public double MaxRange_Great = 0.067;
-    public double MaxRange_Good = 0.084;
-    public double MaxRange_Ok = 0.117;
+    public float MaxRange_Perfect = 0.034f;
+    public float MaxRange_Great = 0.067f;
+    public float MaxRange_Good = 0.084f;
+    public float MaxRange_Ok = 0.117f;
     public bool CymbalFree = true;
     public PlayMode PlayMode = 0;
     public int RideLeft = 0;
@@ -33,4 +33,33 @@ public class UserSettings
         PlayMode.BASIC,
         new LeftAndRightDisplayTrack { ChinaLeft = false, RideLeft = false, SplashLeft = true },
         InputPresetType.Basic);
+
+    public bool AutoPlay(AutoPlayType type)
+    {
+        switch (type)
+        {
+            case AutoPlayType.LeftCrash: return AutoPlay_LeftCymbal;
+            case AutoPlayType.HiHat: return AutoPlay_HiHat;
+            case AutoPlayType.Foot: return AutoPlay_LeftPedal;
+            case AutoPlayType.Snare: return AutoPlay_Snare;
+            case AutoPlayType.Bass: return AutoPlay_Bass;
+            case AutoPlayType.Tom1: return AutoPlay_HighTom;
+            case AutoPlayType.Tom2: return AutoPlay_LowTom;
+            case AutoPlayType.Tom3: return AutoPlay_FloorTom;
+            case AutoPlayType.RightCrash: return AutoPlay_RightCymbal;
+            default: return true;
+        }
+    }
+
+    public float MaxHitTime(JudgmentType type)
+    {
+        switch (type)
+        {
+            case JudgmentType.PERFECT: return MaxRange_Perfect;
+            case JudgmentType.GREAT: return MaxRange_Great;
+            case JudgmentType.GOOD: return MaxRange_Good;
+            case JudgmentType.OK: return MaxRange_Ok;
+            default: return 0;
+        }
+    }
 }

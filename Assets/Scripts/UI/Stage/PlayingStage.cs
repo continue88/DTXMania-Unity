@@ -42,11 +42,60 @@ public class PlayingStage : Stage
 
     private void UpdateChipState()
     {
-        ForAllChipsDrawing(ChipType.Unknown, (chip, index, drawTime, utterTime, adjustPos) =>
+        ForAllChipsDrawing(ChipType.Unknown, (chip, index, drawingTime, utterTime, adjustPos) =>
         {
             if (index == mStartDrawNumber && adjustPos > 0)
             {
                 mStartDrawNumber++;
+            }
+
+            var user = UserManager.Instance.LoggedOnUser;
+            var drumChipProperty = user.DrumChipProperty[chip.ChipType];
+            var autoPlay = user.AutoPlay(drumChipProperty.AutoPlayType);
+
+            bool hitted = this.mChipPlayingState[chip].Hitted;
+            bool notHitted = !(hitted);
+            bool chipMissed = (drawingTime > user.MaxHitTime(JudgmentType.OK));
+            bool passedHitJudgeBar = (0 <= drawingTime);
+            bool passedHitJudgeBarUtter = (0 <= utterTime);
+            if (notHitted && chipMissed)
+            {
+                if (autoPlay && drumChipProperty.AutoPlayON_MissJudge)
+                {
+                    OnChipHitted(
+                        chip,
+                        JudgmentType.MISS,
+                        drumChipProperty.AutoPlayON_AutoHitSound,
+                        drumChipProperty.AutoPlayON_AutoJudge,
+                        drumChipProperty.AutoPlayON_AutoHitHide,
+                        utterTime);
+                    return;
+                }
+                else if (!autoPlay && drumChipProperty.AutoPlayOFF_MissJudge)
+                {
+                    OnChipHitted(
+                        chip,
+                        JudgmentType.MISS,
+                        drumChipProperty.AutoPlayOFF_UserHitSound,
+                        drumChipProperty.AutoPlayOFF_UserHitJudge,
+                        drumChipProperty.AutoPlayOFF_UserHitHide,
+                        utterTime);
+
+                    //this.Results.AddJudgementType(JudgmentType.MISS); // 手動演奏なら MISS はエキサイトゲージに反映。
+                    return;
+                }
+            }
+            if (passedHitJudgeBarUtter)    // ヒット済みかどうかには関係ない
+            {
+                if ((autoPlay && drumChipProperty.AutoPlayON_AutoHitSound) ||
+                    (!autoPlay && drumChipProperty.AutoPlayOFF_AutoHitSound))
+                {
+                    if (!(mChipPlayingState[chip].Uttered))
+                    {
+                        PlayChipSound(chip);
+                        this.mChipPlayingState[chip].Uttered = true;
+                    }
+                }
             }
         });
     }
@@ -103,10 +152,10 @@ public class PlayingStage : Stage
         mChipPlayingState[chip].Hitted = true;
         if (playSound && (judgeType != JudgmentType.MISS))
         {
-            if (!mChipPlayingState[chip].SoundPlayed)
+            if (!mChipPlayingState[chip].Uttered)
             {
                 PlayChipSound(chip);
-                mChipPlayingState[chip].SoundPlayed = true;
+                mChipPlayingState[chip].Uttered = true;
             }
         }
         if (judge)
