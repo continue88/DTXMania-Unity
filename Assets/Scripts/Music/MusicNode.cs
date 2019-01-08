@@ -1,4 +1,5 @@
 ﻿using SSTFormat.v4;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,5 +21,8 @@ public class MusicNode : Node
     {
         Debug.Log("loading file: " + MusicPath);
         Score = Score.LoadFromFile(MusicPath);
+
+        Title = Score.Title;
+        SubTitle = Score.Artist;
     }
 }

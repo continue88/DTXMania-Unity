@@ -11,12 +11,18 @@ public class SelectionStage : Stage
         base.OnOpen();
 
         mSongList = AddChild(new SongList(FindChild("SongList").gameObject));
+
     }
 
     public override void Update()
     {
         base.Update();
 
+        UpdateInput();
+    }
+
+    void UpdateInput()
+    {
         if (InputManager.Instance.HasOk())
         {
             StageManager.Instance.Open<SongLoadStage>();
