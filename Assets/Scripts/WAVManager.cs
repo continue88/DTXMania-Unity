@@ -23,7 +23,7 @@ public class WAVManager : MonoBehaviour
             return;
         }
 
-        var audioClip = clipWWW.GetAudioClipCompressed(false, AudioType.MPEG);
+        var audioClip = clipWWW.GetAudioClipCompressed(false);//, AudioType.MPEG);
         if (!audioClip)
         {
             Debug.LogWarning("The data is not a audio type: " + clipWWW.url);
