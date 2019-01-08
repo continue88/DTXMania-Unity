@@ -45,6 +45,8 @@ public class ChipSlot : Activity
             var chipNode = GetChipNode(chip);
             chipNode.localPosition = new Vector3(0, -adjustPos, 0);
         });
+
+        if (firstChip) CheckForOutTimeChip(null);
     }
 
     private void CheckForOutTimeChip(Chip firstActiveChip)

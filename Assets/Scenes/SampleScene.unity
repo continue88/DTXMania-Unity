@@ -223,6 +223,11 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 534669904}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: MusicFolders.Array.data[0]
+      value: F:\BaiduYunDownload\DTXHD 2013 Full Song\DTXFiles
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db90b10c52ee58c4ab04fdb2d83edf9d, type: 2}
   m_IsPrefabAsset: 0

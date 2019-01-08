@@ -9,9 +9,10 @@ public class PlayingStage : Stage
     int mStartDrawNumber = 0;
     ChipsPanel mChipsPanel;
     DrumPad mDrumPad;
+    ChipLight mChipLight;
     Dictionary<Chip, ChipPlayingState> mChipPlayingState = new Dictionary<Chip, ChipPlayingState>();
 
-    public const float hitJudgPosY = 847f;
+    public const float hitJudgPosY = 600f;
 
     public override void OnOpen()
     {
@@ -19,6 +20,7 @@ public class PlayingStage : Stage
 
         mChipsPanel = AddChild(new ChipsPanel(this, FindChild("CenterPanel/ChipsPanel").gameObject));
         mDrumPad = AddChild(new DrumPad(this, FindChild("CenterPanel/DrumPad").gameObject));
+        mChipLight = AddChild(new ChipLight(this, FindChild("ChipLight").gameObject));
 
         foreach (var chip in MainScript.Instance.PlayingScore.ChipList)
             mChipPlayingState.Add(chip, new ChipPlayingState(chip));
@@ -37,7 +39,7 @@ public class PlayingStage : Stage
 
     private void InitPlayingState()
     {
-        mStartTime = Time.unscaledTime;
+        mStartTime = Time.time;
     }
 
     private void UpdateChipState()
@@ -53,7 +55,7 @@ public class PlayingStage : Stage
             var drumChipProperty = user.DrumChipProperty[chip.ChipType];
             var autoPlay = user.AutoPlay(drumChipProperty.AutoPlayType);
 
-            bool hitted = this.mChipPlayingState[chip].Hitted;
+            bool hitted = mChipPlayingState[chip].Hitted;
             bool notHitted = !(hitted);
             bool chipMissed = (drawingTime > user.MaxHitTime(JudgmentType.OK));
             bool passedHitJudgeBar = (0 <= drawingTime);
@@ -85,7 +87,7 @@ public class PlayingStage : Stage
                     return;
                 }
             }
-            if (passedHitJudgeBarUtter)    // ヒット済みかどうかには関係ない
+            if (passedHitJudgeBarUtter)
             {
                 if ((autoPlay && drumChipProperty.AutoPlayON_AutoHitSound) ||
                     (!autoPlay && drumChipProperty.AutoPlayOFF_AutoHitSound))
@@ -93,8 +95,33 @@ public class PlayingStage : Stage
                     if (!(mChipPlayingState[chip].Uttered))
                     {
                         PlayChipSound(chip);
-                        this.mChipPlayingState[chip].Uttered = true;
+                        mChipPlayingState[chip].Uttered = true;
                     }
+                }
+            }
+            if (notHitted && passedHitJudgeBar)
+            {
+                if (autoPlay && drumChipProperty.AutoPlayON_AutoHit)
+                {
+                    OnChipHitted(
+                        chip,
+                        JudgmentType.PERFECT,
+                        drumChipProperty.AutoPlayON_AutoHitSound,
+                        drumChipProperty.AutoPlayON_AutoJudge,
+                        drumChipProperty.AutoPlayON_AutoHitHide,
+                        utterTime);
+                    return;
+                }
+                else if (!autoPlay && drumChipProperty.AutoPlayOFF_AutoHit)
+                {
+                    OnChipHitted(
+                        chip,
+                        JudgmentType.PERFECT,
+                        drumChipProperty.AutoPlayOFF_AutoHitSound,
+                        drumChipProperty.AutoPlayOFF_AutoHitJudge,
+                        drumChipProperty.AutoPlayOFF_AutoHitHide,
+                        utterTime);
+                    return;
                 }
             }
         });
@@ -127,7 +154,7 @@ public class PlayingStage : Stage
             var pixelDistance = GetPixleDistanceOnTime(speed, drawingTime);
 
             // current chip is outof screen, stop processing.
-            bool aboveTopScreen = ((hitJudgPosY + pixelDistance) < -40.0);
+            bool aboveTopScreen = pixelDistance < -hitJudgPosY;
             if (aboveTopScreen)
                 break;
 
@@ -144,7 +171,7 @@ public class PlayingStage : Stage
 
     public float GetElapsedTimeForStartPlaying()
     {
-        return Time.unscaledTime - mStartTime;
+        return Time.time - mStartTime;
     }
 
     void OnChipHitted(Chip chip, JudgmentType judgeType, bool playSound, bool judge, bool hide, double time)
@@ -161,19 +188,11 @@ public class PlayingStage : Stage
         if (judge)
         {
             var drumChipProperty = UserManager.Instance.LoggedOnUser.DrumChipProperty[chip.ChipType];
-
-            //if (judgeType != JudgmentType.MISS)
-            //{
-            //    // MISS以外（PERFECT～OK）
-            //    this.mChipLight.StartViewing(対応表.DisplayTrackType);
-            //    this.mDrumPad.OnHit(対応表.DisplayTrackType);
-            //    this.mTrackFlash.開始する(対応表.DisplayTrackType);
-            //}
-
-            //this.mResultTextColumn.表示を開始する(対応表.DisplayTrackType, judgeType);
-            //this.Results.ヒット数を加算する(judgeType);
-            ////----------------
-            //#endregion
+            if (judgeType != JudgmentType.MISS)
+            {
+                mDrumPad.OnHit(drumChipProperty.DisplayTrackType);
+                mChipLight.OnHit(drumChipProperty.DisplayTrackType);
+            }
         }
         if (hide)
         {

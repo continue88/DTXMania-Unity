@@ -29,7 +29,6 @@ public class SongList : Activity
 
         // get the focuse node, select on if not presented.
         var musicTree = MainScript.Instance.MusicTree;
-        musicTree.OnFocusNodeChanged += OnFocusNodeChanged;
         if (musicTree.FocusNode == null)
         {
             if (musicTree.Root.ChildNodeList.Count > 0)
@@ -39,6 +38,7 @@ public class SongList : Activity
         {
             musicTree.FocusNode.PlayPreviewAudio();
         }
+        musicTree.OnFocusNodeChanged += OnFocusNodeChanged;
 
         // setup the select animation.
         mUIAnimation = new UIAnimation
@@ -69,7 +69,7 @@ public class SongList : Activity
             }
         };
 
-        //RefreshSongList();
+        RefreshSongList();
     }
 
     public override void Update()

@@ -23,7 +23,12 @@ public class WAVManager : MonoBehaviour
             return;
         }
 
-        var audioClip = clipWWW.GetAudioClipCompressed(false);//, AudioType.MPEG);
+        var ext = Path.GetExtension(clipWWW.url).ToLower();
+        var audioType = ext == ".xa" ? AudioType.WAV :
+            ext == ".mp3" ? AudioType.MPEG :
+            ext == ".ogg" ? AudioType.OGGVORBIS :
+            AudioType.UNKNOWN;
+        var audioClip = clipWWW.GetAudioClipCompressed(false, audioType);
         if (!audioClip)
         {
             Debug.LogWarning("The data is not a audio type: " + clipWWW.url);

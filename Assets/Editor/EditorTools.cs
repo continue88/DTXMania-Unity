@@ -12,6 +12,12 @@ public static class EditorTools
 {
     static readonly char[] Sperator = ": [,]".ToCharArray();
 
+    [MenuItem("DTXMania/Test")]
+    static void Test()
+    {
+        Debug.Log(Path.GetExtension("aaa.xa"));
+    }
+
     [MenuItem("DTXMania/ConvertSprites")]
     static void ConvertSprites()
     {

@@ -14,15 +14,21 @@ public class DrumChipProperty
     public InputGroupType InputGroupType = InputGroupType.Unknown;
     public bool MuteBeforeUtter = false;
     public MuteGroupType MuteGroupType = MuteGroupType.Unknown;
+
     public bool AutoPlayON_AutoHitSound = false;
     public bool AutoPlayON_AutoHitHide = false;
     public bool AutoPlayON_AutoJudge = false;
     public bool AutoPlayON_MissJudge = false;
+    public bool AutoPlayON_AutoHit => AutoPlayON_AutoHitSound || AutoPlayON_AutoHitHide || AutoPlayON_AutoJudge;
+
     public bool AutoPlayOFF_AutoHitSound = false;
     public bool AutoPlayOFF_AutoHitHide = false;
     public bool AutoPlayOFF_AutoHitJudge = false;
+    public bool AutoPlayOFF_AutoHit => AutoPlayOFF_AutoHitSound || AutoPlayOFF_AutoHitHide || AutoPlayOFF_AutoHitJudge;
+
     public bool AutoPlayOFF_UserHitSound = false;
     public bool AutoPlayOFF_UserHitHide = false;
     public bool AutoPlayOFF_UserHitJudge = false;
     public bool AutoPlayOFF_MissJudge = false;
+    public bool AutoPlayOFF_UserHit => AutoPlayOFF_UserHitSound || AutoPlayOFF_UserHitHide || AutoPlayOFF_UserHitJudge;
 }
