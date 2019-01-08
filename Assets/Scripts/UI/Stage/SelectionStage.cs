@@ -5,13 +5,14 @@ using UnityEngine;
 public class SelectionStage : Stage
 {
     SongList mSongList;
+    PreviewImage mPreviewImage;
 
     public override void OnOpen()
     {
         base.OnOpen();
 
         mSongList = AddChild(new SongList(FindChild("SongList").gameObject));
-
+        mPreviewImage = AddChild(new PreviewImage(FindChild("PreviewImage").gameObject));
     }
 
     public override void Update()

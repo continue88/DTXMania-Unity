@@ -21,7 +21,13 @@ public class MusicTree
         public Node DeselectNode;
     }
 
-    public MusicNode AddMusicNode(string file, Node parentNode = null)
+    /// <summary>
+    /// load a music node.
+    /// </summary>
+    /// <param name="file"></param>
+    /// <param name="parentNode"></param>
+    /// <returns></returns>
+    public MusicNode LoadMusicNode(string file, Node parentNode = null)
     {
         if (parentNode == null)
             parentNode = Root;
@@ -66,11 +72,13 @@ public class MusicTree
         }
     }
 
+    /// <summary>
+    /// on the focus item changed.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void FocusList_SelectionChanged(object sender, SelectableList<Node>.SelectChangedEventArgs e)
     {
-        // 間接呼び出し；
-        // フォーカスリストの SelectedChanged イベントハンドラ　→　このクラス内で変更されうる
-        // 外部に対するイベントハンドラ　→　このクラス内では変更されない
         OnFocusNodeChanged?.Invoke(sender, new FocusNodeChangedArgs { SelectedNode = e.SelectItem, DeselectNode = e.DeselectItem });
     }
 }

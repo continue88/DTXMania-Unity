@@ -32,21 +32,23 @@ public class SongList : Activity
     public override void OnOpen()
     {
         base.OnOpen();
-
+        
         // get the first song item template.
         mScrollRect = GameObject.GetComponent<ScrollRect>();
         mItemTemplate = mScrollRect.content.GetChild(0) as RectTransform;
         mItemTemplate.gameObject.SetActive(false);
 
-        BuildSongList();
+        RefreshSongList();
     }
 
     private void MusicTree_OnFocusNodeChanged(object sender, MusicTree.FocusNodeChangedArgs e)
     {
     }
 
-
-    void BuildSongList()
+    /// <summary>
+    /// RefreshSongList
+    /// </summary>
+    void RefreshSongList()
     {
         var musicTree = MainScript.Instance.MusicTree;
         var nodeToShow = musicTree.FocusNode;
@@ -55,6 +57,7 @@ public class SongList : Activity
         for (var i = 0; i < mCursorPos; i++)
             nodeToShow = nodeToShow.PreNode;
 
+        // show the shong list.
         for (var i = 0; i < TotalSongItem; i++)
         {
             BuildSongItem(nodeToShow, i);
@@ -79,5 +82,9 @@ public class SongList : Activity
         // setup title text.
         songItem.Find("TextTitle").GetComponent<Text>().text = node.Title;
         songItem.Find("TextSubTitle").GetComponent<Text>().text = node.SubTitle;
+
+        // setup image thumbnail.
+        if (node.PreviewSprite)
+            songItem.Find("ImageThumbnail").GetComponent<Image>().sprite = node.PreviewSprite;
     }
 }

@@ -7,7 +7,9 @@ public class Node
     public Node Parent { get; set; } = null;
     public SelectableList<Node> ChildNodeList { get; } = new SelectableList<Node>();
 
-    public string PreviewAudioPath { get; private set; }
+    public string PreviewImagePath { get; protected set; } = "";
+    public string PreviewAudioPath { get; protected set; } = "";
+    public Sprite PreviewSprite { get; protected set; }
     public string Title { get; protected set; } = "(no title)";
     public string SubTitle { get; protected set; }
 
