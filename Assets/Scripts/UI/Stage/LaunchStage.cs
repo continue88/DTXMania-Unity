@@ -18,6 +18,8 @@ public class LaunchStage : Stage
 
         foreach (var folder in MainScript.Instance.MusicFolders)
         {
+            if (!Directory.Exists(folder)) continue;
+
             foreach (var ext in MusicTree.SearchExtensions)
             {
                 yield return new WaitForEndOfFrame();
