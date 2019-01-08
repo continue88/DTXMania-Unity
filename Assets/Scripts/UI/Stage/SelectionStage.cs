@@ -32,8 +32,14 @@ public class SelectionStage : Stage
 
         if (InputManager.Instance.HasOk())
         {
-            StageManager.Instance.Open<SongLoadStage>();
-            Close();
+            var focusNode = MainScript.Instance.MusicTree.FocusNode;
+            if (focusNode is MusicNode)
+            {
+                var musicNode = focusNode as MusicNode;
+                MainScript.Instance.PlayingScore = musicNode.Score;
+                StageManager.Instance.Open<SongLoadStage>();
+                Close();
+            }
         }
     }
 }

@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class SongList : Activity
 {
     int mCursorPos = 4;
-    ScrollRect mScrollRect;
+    bool mMoveDown = true;
     RectTransform mItemTemplate;
+    UIAnimation mUIAnimation = null;
 
     const int TotalSongItem = 10;
     const int ItemGrap = 10;
@@ -23,8 +24,7 @@ public class SongList : Activity
         base.OnOpen();
         
         // get the first song item template.
-        mScrollRect = GameObject.GetComponent<ScrollRect>();
-        mItemTemplate = mScrollRect.content.GetChild(0) as RectTransform;
+        mItemTemplate = Transform.Find("Content").GetChild(0) as RectTransform;
         mItemTemplate.gameObject.SetActive(false);
 
         // get the focuse node, select on if not presented.
@@ -40,7 +40,42 @@ public class SongList : Activity
             musicTree.FocusNode.PlayPreviewAudio();
         }
 
-        RefreshSongList();
+        // setup the select animation.
+        mUIAnimation = new UIAnimation
+        {
+            duration = 0.4f,
+            OnUpdate = (factor, finished) =>
+            {
+                factor *= 2.0f;
+                if (factor < 1)
+                {
+                    var startOffset = (mItemTemplate.sizeDelta.y + ItemGrap);
+                    if (mMoveDown) startOffset *= -1;
+                    mItemTemplate.parent.localPosition = new Vector3(0, startOffset * (1 - factor));
+                }
+                else
+                {
+                    factor -= 1.0f;
+                    mItemTemplate.parent.localPosition = Vector3.zero;
+                    var focusItem = mItemTemplate.parent.GetChild(mCursorPos);
+                    focusItem.localPosition = new Vector3(SelectOffset * (1 - factor), 0);
+                }
+            },
+            onFinished = () =>
+            {
+                mItemTemplate.parent.localPosition = Vector3.zero;
+                var focusItem = mItemTemplate.parent.GetChild(mCursorPos);
+                focusItem.localPosition = new Vector3(0, 0);
+            }
+        };
+
+        //RefreshSongList();
+    }
+
+    public override void Update()
+    {
+        base.Update();
+        mUIAnimation?.Update();
     }
 
     public override void OnClose()
@@ -54,6 +89,10 @@ public class SongList : Activity
     private void OnFocusNodeChanged(object sender, MusicTree.FocusNodeChangedArgs e)
     {
         RefreshSongList();
+
+        mMoveDown = e.DeselectNode == e.SelectedNode.PreNode;
+        mUIAnimation?.ResetToBeginning();
+        mUIAnimation?.PlayForward();
     }
 
     /// <summary>
@@ -87,9 +126,8 @@ public class SongList : Activity
         var songItem = mItemTemplate.parent.childCount > index ?
             mItemTemplate.parent.GetChild(index) as RectTransform :
             Object.Instantiate(mItemTemplate.gameObject, mItemTemplate.parent).transform as RectTransform;
-        var itemPosX = (index == mCursorPos) ? 0 : SelectOffset;
         var itemPosY = (TotalSongItem / 2 - index - 1) * (itemHeight + ItemGrap);
-        songItem.localPosition = new Vector3(itemPosX, itemPosY, 0);
+        songItem.localPosition = new Vector3(SelectOffset, itemPosY, 0);
         songItem.gameObject.SetActive(true);
 
         // setup title text.

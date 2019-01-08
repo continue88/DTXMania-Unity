@@ -19,7 +19,7 @@ public class PlayingStage : Stage
         mChipsPanel = AddChild(new ChipsPanel(this, FindChild("CenterPanel/ChipsPanel").gameObject));
         mDrumPad = AddChild(new DrumPad(this, FindChild("CenterPanel/DrumPad").gameObject));
 
-        foreach (var chip in AppMain.Instance.PlayingScore.ChipList)
+        foreach (var chip in MainScript.Instance.PlayingScore.ChipList)
             mChipPlayingState.Add(chip, new ChipPlayingState(chip));
     }
 
@@ -42,7 +42,7 @@ public class PlayingStage : Stage
 
     public void ForAllChipsDrawing(ChipType chipType, System.Action<Chip, int, float, float, float> applyAction)
     {
-        var score = AppMain.Instance.PlayingScore;
+        var score = MainScript.Instance.PlayingScore;
         if (score == null) return;
 
         var playingTime = GetElapsedTimeForStartPlaying();
@@ -53,7 +53,7 @@ public class PlayingStage : Stage
 
             var drawingTime = playingTime - (float)chip.DrawTimeSec;
             var utterTime = playingTime - (float)chip.UtterTimeSec;
-            var speed = AppMain.Instance.InterpSpeed;
+            var speed = MainScript.Instance.InterpSpeed;
             var pixelDistance = GetPixleDistanceOnTime(speed, drawingTime);
 
             // current chip is outof screen, stop processing.
