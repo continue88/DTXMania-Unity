@@ -31,7 +31,9 @@ public class ChipsPanel : Activity
             var displayName = (chipType == ChipType.BarLine || chipType == ChipType.BeatLine) ? chipType.ToString() :
                 userSettings.DrumChipProperty[chipType].DisplayChipType.ToString();
             var childNode = FindChild(displayName);
-            if (!childNode) continue;
+            if (!childNode)
+                continue;
+
             // active for this child.
             childNode.gameObject.SetActive(true);
             AddChild(new ChipSlot(childNode.gameObject, mPlayingStage, chipType));

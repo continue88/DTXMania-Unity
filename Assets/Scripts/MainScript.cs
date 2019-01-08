@@ -7,6 +7,7 @@ public class MainScript : MonoBehaviour
 {
     public Transform UIRoot;
     public DrumSound DrumSound;
+    public WAVManager WAVManager;
     public string[] MusicFolders;
 
     public static MainScript Instance { get; private set; }
@@ -22,6 +23,7 @@ public class MainScript : MonoBehaviour
         DontDestroyOnLoad(this);
 
         if (!DrumSound) DrumSound = GetComponent<DrumSound>();
+        if (!WAVManager) WAVManager = GetComponent<WAVManager>();
 
         StageManager.Instance.Open<LaunchStage>();
     }

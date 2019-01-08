@@ -20,7 +20,18 @@ public class SongLoadStage : Stage
 
     IEnumerator DelayOpen()
     {
-        yield return new WaitForSeconds(1.0f);
+        MainScript.Instance.WAVManager.Clear();
+
+        var playingScore = MainScript.Instance.PlayingScore;
+        foreach (var kvp in playingScore.WAVList)
+        {
+            var path = playingScore.PATH_WAV + '/' + kvp.Value.Item1;
+            using (var www = new WWW(path))
+            {
+                yield return www;
+                MainScript.Instance.WAVManager.Sinup(kvp.Key, www, kvp.Value.Item2);
+            }
+        }
 
         StageManager.Instance.Open<PlayingStage>();
 

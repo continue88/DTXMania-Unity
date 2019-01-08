@@ -43,7 +43,7 @@ public class ChipSlot : Activity
                 CheckForOutTimeChip(chip);
             }
             var chipNode = GetChipNode(chip);
-            chipNode.localPosition = new Vector3(0, adjustPos, 0);
+            chipNode.localPosition = new Vector3(0, -adjustPos, 0);
         });
     }
 

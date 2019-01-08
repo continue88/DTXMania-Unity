@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayingStage : Stage
 {
+    float mStartTime = 0;
     int mStartDrawNumber = 0;
     ChipsPanel mChipsPanel;
     DrumPad mDrumPad;
@@ -21,13 +22,33 @@ public class PlayingStage : Stage
 
         foreach (var chip in MainScript.Instance.PlayingScore.ChipList)
             mChipPlayingState.Add(chip, new ChipPlayingState(chip));
+
+        InitPlayingState();
     }
 
     public override void Update()
     {
         base.Update();
 
+        UpdateChipState();
+
         CheckInput();
+    }
+
+    private void InitPlayingState()
+    {
+        mStartTime = Time.unscaledTime;
+    }
+
+    private void UpdateChipState()
+    {
+        ForAllChipsDrawing(ChipType.Unknown, (chip, index, drawTime, utterTime, adjustPos) =>
+        {
+            if (index == mStartDrawNumber && adjustPos > 0)
+            {
+                mStartDrawNumber++;
+            }
+        });
     }
 
     private void CheckInput()
@@ -49,7 +70,7 @@ public class PlayingStage : Stage
         for (var i = mStartDrawNumber; i >= 0 && i < score.ChipList.Count; i++)
         {
             var chip = score.ChipList[i];
-            if (chip.ChipType != chipType) continue;
+            if (chipType != ChipType.Unknown && chip.ChipType != chipType) continue;
 
             var drawingTime = playingTime - (float)chip.DrawTimeSec;
             var utterTime = playingTime - (float)chip.UtterTimeSec;
@@ -74,7 +95,7 @@ public class PlayingStage : Stage
 
     public float GetElapsedTimeForStartPlaying()
     {
-        return 0;
+        return Time.unscaledTime - mStartTime;
     }
 
     void OnChipHitted(Chip chip, JudgmentType judgeType, bool playSound, bool judge, bool hide, double time)
@@ -137,7 +158,7 @@ public class PlayingStage : Stage
         else
         {
             var prop = UserManager.Instance.LoggedOnUser.DrumChipProperty[chip.ChipType];
-            WAVManager.Instance.PlaySound(
+            MainScript.Instance.WAVManager.PlaySound(
                 chip.SubChipId,
                 chip.ChipType,
                 prop.MuteBeforeUtter,

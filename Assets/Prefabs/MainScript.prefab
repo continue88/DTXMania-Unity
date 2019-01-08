@@ -11,6 +11,22 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1684151881667828}
   m_IsPrefabAsset: 1
+--- !u!1 &1010996698135698
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4353208400087752}
+  - component: {fileID: 114637757556054522}
+  m_Layer: 0
+  m_Name: WAVManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1347180911290408
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,6 +107,7 @@ Transform:
   - {fileID: 224998447143416494}
   - {fileID: 4344186660071174}
   - {fileID: 4953183410669484}
+  - {fileID: 4353208400087752}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -106,6 +123,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4085625866039384}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4353208400087752
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1010996698135698}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4085625866039384}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4953183410669484
 Transform:
@@ -173,6 +203,17 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!114 &114637757556054522
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1010996698135698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347a475d5400c2c44a817555b02bcc2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114776999521927556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,6 +227,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIRoot: {fileID: 224998447143416494}
   DrumSound: {fileID: 114862086186988530}
+  WAVManager: {fileID: 114637757556054522}
+  MusicFolders:
+  - E:\BaiduNetdiskDownload\DTXHD 2013 Full Song\DTXFiles
 --- !u!114 &114856861924499314
 MonoBehaviour:
   m_ObjectHideFlags: 1
