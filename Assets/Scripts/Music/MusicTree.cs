@@ -81,4 +81,26 @@ public class MusicTree
     {
         OnFocusNodeChanged?.Invoke(sender, new FocusNodeChangedArgs { SelectedNode = e.SelectItem, DeselectNode = e.DeselectItem });
     }
+
+    /// <remarks>
+    ///		FocusNextNode。
+    /// </remarks>
+    public void FocusNextNode()
+    {
+        if (FocusList == null) return;
+        var index = FocusList.SelectedIndex;
+        index = (index + 1) % FocusList.Count;
+        FocusList.SelectItem(index);
+    }
+
+    /// <remarks>
+    ///		FocusPreviousNode。
+    /// </remarks>
+    public void FocusPreviousNode()
+    {
+        if (FocusList == null) return;
+        var index = FocusList.SelectedIndex;
+        index = (index - 1 + this.FocusList.Count) % FocusList.Count;
+        FocusList.SelectItem(index);
+    }
 }

@@ -16,17 +16,6 @@ public class SongList : Activity
     public SongList(GameObject go)
         : base(go)
     {
-        var musicTree = MainScript.Instance.MusicTree;
-        musicTree.OnFocusNodeChanged += MusicTree_OnFocusNodeChanged;
-        if (musicTree.FocusNode == null)
-        {
-            if (musicTree.Root.ChildNodeList.Count > 0)
-                musicTree.FocusOn(musicTree.Root.ChildNodeList[0]);
-        }
-        else
-        {
-            musicTree.FocusNode.PlayPreviewAudio();
-        }
     }
 
     public override void OnOpen()
@@ -38,11 +27,33 @@ public class SongList : Activity
         mItemTemplate = mScrollRect.content.GetChild(0) as RectTransform;
         mItemTemplate.gameObject.SetActive(false);
 
+        // get the focuse node, select on if not presented.
+        var musicTree = MainScript.Instance.MusicTree;
+        musicTree.OnFocusNodeChanged += OnFocusNodeChanged;
+        if (musicTree.FocusNode == null)
+        {
+            if (musicTree.Root.ChildNodeList.Count > 0)
+                musicTree.FocusOn(musicTree.Root.ChildNodeList[0]);
+        }
+        else
+        {
+            musicTree.FocusNode.PlayPreviewAudio();
+        }
+
         RefreshSongList();
     }
 
-    private void MusicTree_OnFocusNodeChanged(object sender, MusicTree.FocusNodeChangedArgs e)
+    public override void OnClose()
     {
+        base.OnClose();
+
+        var musicTree = MainScript.Instance.MusicTree;
+        musicTree.OnFocusNodeChanged -= OnFocusNodeChanged;
+    }
+
+    private void OnFocusNodeChanged(object sender, MusicTree.FocusNodeChangedArgs e)
+    {
+        RefreshSongList();
     }
 
     /// <summary>
@@ -73,7 +84,9 @@ public class SongList : Activity
     void BuildSongItem(Node node, int index)
     {
         var itemHeight = mItemTemplate.sizeDelta.y;
-        var songItem = Object.Instantiate(mItemTemplate.gameObject, mItemTemplate.parent).transform as RectTransform;
+        var songItem = mItemTemplate.parent.childCount > index ?
+            mItemTemplate.parent.GetChild(index) as RectTransform :
+            Object.Instantiate(mItemTemplate.gameObject, mItemTemplate.parent).transform as RectTransform;
         var itemPosX = (index == mCursorPos) ? 0 : SelectOffset;
         var itemPosY = (TotalSongItem / 2 - index - 1) * (itemHeight + ItemGrap);
         songItem.localPosition = new Vector3(itemPosX, itemPosY, 0);

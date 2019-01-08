@@ -24,10 +24,15 @@ public class SelectionStage : Stage
 
     void UpdateInput()
     {
+        if (InputManager.Instance.HasMoveUp())
+            MainScript.Instance.MusicTree.FocusPreviousNode();
+
+        if (InputManager.Instance.HasMoveDown())
+            MainScript.Instance.MusicTree.FocusNextNode();
+
         if (InputManager.Instance.HasOk())
         {
             StageManager.Instance.Open<SongLoadStage>();
-
             Close();
         }
     }
