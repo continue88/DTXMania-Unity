@@ -43,6 +43,30 @@ public class LaunchStage : Stage
             }
         }
 
+        // load dtx files in the streaming asset path.
+        var streamPath = Application.streamingAssetsPath;
+        foreach (var musicFile in MainScript.Instance.DtxFiles)
+        {
+            var dtxPath = streamPath + musicFile;
+            using (var www = new WWW(dtxPath))
+            {
+                yield return www;
+
+                var musicNode = MainScript.Instance.MusicTree.LoadMusicNode(www);
+                if (musicNode == null) continue;
+
+                // try to delay load the preview image.
+                if (!string.IsNullOrEmpty(musicNode.PreviewImagePath))
+                {
+                    using (var www1 = new WWW(musicNode.PreviewImagePath))
+                    {
+                        yield return www1;
+                        musicNode.OnLoadPreviewImage(www1);
+                    }
+                }
+            }
+        }
+
         StageManager.Instance.Open<TitleStage>();
 
         Close();

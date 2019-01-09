@@ -46,6 +46,41 @@ public class MusicTree
     }
 
     /// <summary>
+    /// load a music node from a www dtx file.
+    /// </summary>
+    /// <param name="www"></param>
+    /// <param name="parentNode"></param>
+    /// <returns></returns>
+    public MusicNode LoadMusicNode(WWW www, Node parentNode = null)
+    {
+        if (parentNode == null)
+            parentNode = Root;
+
+        try
+        {
+            if (string.IsNullOrEmpty(www.error))
+            {
+                using (var stream = new MemoryStream(www.bytes))
+                {
+                    var music = new MusicNode(www.url, parentNode, stream);
+                    parentNode.ChildNodeList.Add(music);
+                    return music;
+                }   
+            }
+            else
+            {
+                Debug.LogError("Fail to load www data: " + www.error);
+                return null;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Fail to load music file: " + www.url + "\nmessage=" + ex.Message + "\ntrace:\n" + ex.StackTrace);
+            return null;
+        }
+    }
+
+    /// <summary>
     /// focus on a node.
     /// </summary>
     /// <param name="node"></param>

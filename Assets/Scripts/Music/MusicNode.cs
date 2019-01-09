@@ -9,17 +9,19 @@ public class MusicNode : Node
     public string MusicPath { get; private set; }
     public Score Score { get; private set; }
 
-    public MusicNode(string musicPath, Node parent)
+    public MusicNode(string musicPath, Node parent, Stream stream = null)
     {
         MusicPath = musicPath;
         Parent = parent;
 
-        LoadSongData();
+        LoadSongData(stream);
     }
 
-    private void LoadSongData()
+    private void LoadSongData(Stream stream = null)
     {
-        Score = Score.LoadFromFile(MusicPath);
+        Score = stream != null ?
+            Score.LoadFromStream(stream, MusicPath) :
+            Score.LoadFromFile(MusicPath);
 
         var path = Path.GetDirectoryName(MusicPath) + "/";
 

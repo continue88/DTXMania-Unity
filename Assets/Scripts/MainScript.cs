@@ -9,7 +9,7 @@ public class MainScript : MonoBehaviour
     public DrumSound DrumSound;
     public WAVManager WAVManager;
     public string[] MusicFolders;
-    public string[] SampleFiles;
+    public string[] DtxFiles;
 
     public static MainScript Instance { get; private set; }
 

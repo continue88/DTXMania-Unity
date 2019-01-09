@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -186,6 +186,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4085625866039384, guid: db90b10c52ee58c4ab04fdb2d83edf9d, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -226,7 +231,12 @@ Prefab:
     - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
         type: 2}
       propertyPath: MusicFolders.Array.data[0]
-      value: F:\BaiduYunDownload\DTXHD 2013 Full Song\DTXFiles
+      value: E:\BaiduNetdiskDownload\DTXHD 2013 Full Song\DTXFiles1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[0]
+      value: \7 SuperStar\ext.dtx
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db90b10c52ee58c4ab04fdb2d83edf9d, type: 2}
