@@ -189,7 +189,7 @@ Prefab:
     - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
         type: 2}
       propertyPath: DtxFiles.Array.size
-      value: 1
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4085625866039384, guid: db90b10c52ee58c4ab04fdb2d83edf9d, type: 2}
       propertyPath: m_LocalPosition.x
@@ -231,12 +231,12 @@ Prefab:
     - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
         type: 2}
       propertyPath: MusicFolders.Array.data[0]
-      value: E:\BaiduNetdiskDownload\DTXHD 2013 Full Song\DTXFiles
+      value: E:\BaiduNetdiskDownload\DTXHD 2013 Full Song\DTXFiles1
       objectReference: {fileID: 0}
     - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
         type: 2}
       propertyPath: DtxFiles.Array.data[0]
-      value: /7 SuperStar/ext.dtx
+      value: /DTXFiles/1 Because i am a girl/ext.dtx
       objectReference: {fileID: 0}
     - target: {fileID: 114302138589752238, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
         type: 2}
@@ -252,6 +252,152 @@ Prefab:
         type: 2}
       propertyPath: m_ReferenceResolution.y
       value: 720
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[1]
+      value: /DTXFiles/10 Jay - ShuiShouPaShui/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[2]
+      value: /DTXFiles/11 Jay Chou - Princess Disease/Princess Disease.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[3]
+      value: /DTXFiles/12 bleach ed5 full/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[4]
+      value: /DTXFiles/13 Claire Guo - The Next Dawn/The Next Dawn.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[5]
+      value: /DTXFiles/14 Janice M. Vidal - Even If The World No Fairy Tale/Even If
+        The World No Fairy Tale.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[6]
+      value: /DTXFiles/15 bleach op2/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[7]
+      value: /DTXFiles/16 Tank - Exclusive Angel/Exclusive Angel.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[8]
+      value: "/DTXFiles/17 Wanting Qu - You Exist In My Song/\u6211\u7684\u6B4C\u58F0\u91CC.dtx"
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[9]
+      value: /DTXFiles/18 Beyond - BuZaiYouYu/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[10]
+      value: /DTXFiles/19 bleach op3/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[11]
+      value: /DTXFiles/2 WangFei XiaoJingTeng/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[12]
+      value: /DTXFiles/20 WuBai - Tongkuderen/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[13]
+      value: /DTXFiles/21 bleach op15/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[14]
+      value: /DTXFiles/22 Hu Xia - In Those Years/In Those Years.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[15]
+      value: /DTXFiles/23 Teresa Teng - I Only Care About You/I Only Care About You.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[16]
+      value: /DTXFiles/24 Beyond - QingRen/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[17]
+      value: /DTXFiles/25 ke$ha - Tik Tok/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[18]
+      value: /DTXFiles/26 Ladygaga - Poke Face/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[19]
+      value: /DTXFiles/27 nobody/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[20]
+      value: /DTXFiles/28 ZhangZhenYue - ZaiJian/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[21]
+      value: /DTXFiles/29 ZongGuanXian - GongLu/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[22]
+      value: /DTXFiles/3 bleach ed5/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[23]
+      value: /DTXFiles/30 SuiYueWuSheng/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[24]
+      value: /DTXFiles/4 Mayday - Wen Rou/Wen Rou.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[25]
+      value: /DTXFiles/5 Nan Quan Mama - As A Child/As A Child.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[26]
+      value: /DTXFiles/6 bleach op1/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[27]
+      value: /DTXFiles/7 SuperStar/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[28]
+      value: /DTXFiles/8 Xue/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: DtxFiles.Array.data[29]
+      value: /DTXFiles/9 bleach op5/ext.dtx
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db90b10c52ee58c4ab04fdb2d83edf9d, type: 2}

@@ -25,6 +25,15 @@ public static class EditorTools
         var dataPath = Application.dataPath + path.Substring("Assets".Length);
     }
 
+    [MenuItem("DTXMania/AutoBuildStreamingPath")]
+    static void AutoBuildStreamingPath()
+    {
+        var mainScript = GameObject.FindObjectOfType<MainScript>();
+        mainScript.DtxFiles = Directory.GetFiles(Application.streamingAssetsPath, "*.dtx", SearchOption.AllDirectories)
+            .Select(x => x.Substring(Application.streamingAssetsPath.Length).Replace("\\", "/"))
+            .ToArray();
+    }
+
     [MenuItem("DTXMania/ConvertSprites")]
     static void ConvertSprites()
     {
