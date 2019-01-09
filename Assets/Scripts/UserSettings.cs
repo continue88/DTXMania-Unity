@@ -6,7 +6,7 @@ public class UserSettings
 {
     public string Id = "Anonymous";
     public string Name = "Anonymous";
-    public double ScrollSpeed = 1.0;
+    public float ScrollSpeed = 1.0f;
     public bool Fullscreen = false;
     public bool AutoPlay_LeftCymbal = true;
     public bool AutoPlay_HiHat = true;

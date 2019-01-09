@@ -69,7 +69,7 @@ public class MusicTree
             }
             else
             {
-                Debug.LogError("Fail to load www data: " + www.error);
+                Debug.LogError("Fail to load www data: " + www.url + "\nError:" + www.error);
                 return null;
             }
         }

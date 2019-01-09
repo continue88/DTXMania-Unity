@@ -34,6 +34,8 @@ public class SongLoadStage : Stage
             }
         }
 
+        Resources.UnloadUnusedAssets();
+
         StageManager.Instance.Open<PlayingStage>();
 
         Close();

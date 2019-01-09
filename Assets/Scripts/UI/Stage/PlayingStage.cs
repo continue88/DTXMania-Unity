@@ -13,6 +13,7 @@ public class PlayingStage : Stage
     ChipLight mChipLight;
     ResultTextColumn mResultTextColumn;
     PerformanceDispaly mPerformanceDispaly;
+    PlayingSpeed mPlayingSpeed;
     Dictionary<Chip, ChipPlayingState> mChipPlayingState = new Dictionary<Chip, ChipPlayingState>();
 
     public const float hitJudgPosY = 600f;
@@ -29,6 +30,7 @@ public class PlayingStage : Stage
         mChipLight = AddChild(new ChipLight(this, FindChild("ChipLight").gameObject));
         mResultTextColumn = AddChild(new ResultTextColumn(FindChild("CenterPanel/ResultTextColumn").gameObject));
         mPerformanceDispaly = AddChild(new PerformanceDispaly(mGrade, FindChild("LeftPanel/PerformanceDispaly").gameObject));
+        mPlayingSpeed = AddChild(new PlayingSpeed(FindChild("PlayingSpeed").gameObject));
         AddChild(new SongInfo(FindChild("SongInfo").gameObject));
 
         foreach (var chip in MainScript.Instance.PlayingScore.ChipList)
@@ -158,7 +160,7 @@ public class PlayingStage : Stage
 
             var drawingTime = playingTime - (float)chip.DrawTimeSec;
             var utterTime = playingTime - (float)chip.UtterTimeSec;
-            var speed = MainScript.Instance.InterpSpeed;
+            var speed = mPlayingSpeed.InterpSpeed;
             var pixelDistance = GetPixleDistanceOnTime(speed, drawingTime);
 
             // current chip is outof screen, stop processing.

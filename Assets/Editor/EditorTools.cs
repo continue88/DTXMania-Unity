@@ -12,10 +12,15 @@ public static class EditorTools
     [MenuItem("DTXMania/DisableAllRayTargets")]
     static void DisableAllRayTargets()
     {
-        var count = Selection.activeGameObject.GetComponentsInChildren<UnityEngine.UI.Image>(true)
+        var imageCount = Selection.activeGameObject.GetComponentsInChildren<UnityEngine.UI.Image>(true)
             .Where(image => image.raycastTarget)
             .Count(image => !(image.raycastTarget = false));
-        Debug.Log("Find targets: " + count);
+        Debug.Log("Find image targets: " + imageCount);
+
+        var textCount = Selection.activeGameObject.GetComponentsInChildren<UnityEngine.UI.Text>(true)
+            .Where(text => text.raycastTarget)
+            .Count(text => !(text.raycastTarget = false));
+        Debug.Log("Find image targets: " + textCount);
     }
 
     [MenuItem("DTXMania/TestXAAudio")]

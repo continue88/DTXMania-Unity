@@ -44,6 +44,7 @@ public class Activity
     public Transform FindChild(string path)
     {
         if (!Transform) return null;
+        if (string.IsNullOrEmpty(path)) return Transform;
         return Transform.Find(path);
     }
 
