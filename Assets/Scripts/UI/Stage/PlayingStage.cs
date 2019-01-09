@@ -10,6 +10,7 @@ public class PlayingStage : Stage
     ChipsPanel mChipsPanel;
     DrumPad mDrumPad;
     ChipLight mChipLight;
+    ResultTextColumn mResultTextColumn;
     Dictionary<Chip, ChipPlayingState> mChipPlayingState = new Dictionary<Chip, ChipPlayingState>();
 
     public const float hitJudgPosY = 600f;
@@ -21,6 +22,7 @@ public class PlayingStage : Stage
         mChipsPanel = AddChild(new ChipsPanel(this, FindChild("CenterPanel/ChipsPanel").gameObject));
         mDrumPad = AddChild(new DrumPad(this, FindChild("CenterPanel/DrumPad").gameObject));
         mChipLight = AddChild(new ChipLight(this, FindChild("ChipLight").gameObject));
+        mResultTextColumn = AddChild(new ResultTextColumn(FindChild("CenterPanel/ResultTextColumn").gameObject));
 
         foreach (var chip in MainScript.Instance.PlayingScore.ChipList)
             mChipPlayingState.Add(chip, new ChipPlayingState(chip));
@@ -82,7 +84,6 @@ public class PlayingStage : Stage
                         drumChipProperty.AutoPlayOFF_UserHitJudge,
                         drumChipProperty.AutoPlayOFF_UserHitHide,
                         utterTime);
-
                     //this.Results.AddJudgementType(JudgmentType.MISS); // 手動演奏なら MISS はエキサイトゲージに反映。
                     return;
                 }
@@ -193,6 +194,7 @@ public class PlayingStage : Stage
                 mDrumPad.OnHit(drumChipProperty.DisplayTrackType);
                 mChipLight.OnHit(drumChipProperty.DisplayTrackType);
             }
+            mResultTextColumn.OnHit(drumChipProperty.DisplayTrackType, judgeType);
         }
         if (hide)
         {

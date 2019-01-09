@@ -12,10 +12,13 @@ public static class EditorTools
 {
     static readonly char[] Sperator = ": [,]".ToCharArray();
 
-    [MenuItem("DTXMania/Test")]
+    [MenuItem("DTXMania/DisableAllRayTargets")]
     static void Test()
     {
-        Debug.Log(Path.GetExtension("aaa.xa"));
+        var count = Selection.activeGameObject.GetComponentsInChildren<UnityEngine.UI.Image>(true)
+            .Where(image => image.raycastTarget)
+            .Count(image => !(image.raycastTarget = false));
+        Debug.Log("Find targets: " + count);
     }
 
     [MenuItem("DTXMania/ConvertSprites")]
