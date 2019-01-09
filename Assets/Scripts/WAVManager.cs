@@ -24,7 +24,7 @@ public class WAVManager : MonoBehaviour
         }
 
         var ext = Path.GetExtension(clipWWW.url).ToLower();
-        var audioType = ext == ".xa" ? AudioType.WAV :
+        var audioType = ext == ".wav" ? AudioType.WAV :
             ext == ".mp3" ? AudioType.MPEG :
             ext == ".ogg" ? AudioType.OGGVORBIS :
             AudioType.UNKNOWN;

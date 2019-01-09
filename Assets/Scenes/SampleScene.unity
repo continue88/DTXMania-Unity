@@ -231,7 +231,7 @@ Prefab:
     - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
         type: 2}
       propertyPath: MusicFolders.Array.data[0]
-      value: E:\BaiduNetdiskDownload\DTXHD 2013 Full Song\DTXFiles1
+      value: E:\BaiduNetdiskDownload\DTXHD 2013 Full Song\DTXFiles
       objectReference: {fileID: 0}
     - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
         type: 2}

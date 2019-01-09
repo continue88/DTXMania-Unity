@@ -29,6 +29,7 @@ public class PlayingStage : Stage
         mChipLight = AddChild(new ChipLight(this, FindChild("ChipLight").gameObject));
         mResultTextColumn = AddChild(new ResultTextColumn(FindChild("CenterPanel/ResultTextColumn").gameObject));
         mPerformanceDispaly = AddChild(new PerformanceDispaly(mGrade, FindChild("LeftPanel/PerformanceDispaly").gameObject));
+        AddChild(new SongInfo(FindChild("SongInfo").gameObject));
 
         foreach (var chip in MainScript.Instance.PlayingScore.ChipList)
             mChipPlayingState.Add(chip, new ChipPlayingState(chip));

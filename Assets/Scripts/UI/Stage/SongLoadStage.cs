@@ -27,9 +27,6 @@ public class SongLoadStage : Stage
         {
             var path = playingScore.PATH_WAV + '/' + kvp.Value.Item1;
 
-            // for now, xa is not supported.
-            if (path.ToLower().EndsWith(".xa")) continue;
-
             using (var www = new WWW(path))
             {
                 yield return www;

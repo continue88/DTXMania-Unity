@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
-using UnityEditor.Experimental;
 using System.Linq;
 using System.IO;
 using System.Xml;
@@ -13,12 +10,19 @@ public static class EditorTools
     static readonly char[] Sperator = ": [,]".ToCharArray();
 
     [MenuItem("DTXMania/DisableAllRayTargets")]
-    static void Test()
+    static void DisableAllRayTargets()
     {
         var count = Selection.activeGameObject.GetComponentsInChildren<UnityEngine.UI.Image>(true)
             .Where(image => image.raycastTarget)
             .Count(image => !(image.raycastTarget = false));
         Debug.Log("Find targets: " + count);
+    }
+
+    [MenuItem("DTXMania/TestXAAudio")]
+    static void TestXAAudio()
+    {
+        var path = AssetDatabase.GetAssetPath(Selection.activeObject);
+        var dataPath = Application.dataPath + path.Substring("Assets".Length);
     }
 
     [MenuItem("DTXMania/ConvertSprites")]
