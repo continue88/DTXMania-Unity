@@ -189,7 +189,12 @@ Prefab:
     - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
         type: 2}
       propertyPath: DtxFiles.Array.size
-      value: 30
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: MusicFolders.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4085625866039384, guid: db90b10c52ee58c4ab04fdb2d83edf9d, type: 2}
       propertyPath: m_LocalPosition.x
@@ -236,7 +241,7 @@ Prefab:
     - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
         type: 2}
       propertyPath: DtxFiles.Array.data[0]
-      value: /DTXFiles/1 Because i am a girl/ext.dtx
+      value: /DTXFiles/7 SuperStar/ext.dtx
       objectReference: {fileID: 0}
     - target: {fileID: 114302138589752238, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
         type: 2}

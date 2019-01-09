@@ -32,21 +32,26 @@ public class ChipSlot : Activity
     {
         base.Update();
 
-        var firstChip = true;
-        mPlayingStage.ForAllChipsDrawing(mChipType, (Chip chip, int index, float drawTime, float utterTime, float adjustPos) =>
+        var firstUpdate = true;
+        var chipDrawingList = mPlayingStage.ChipDrawingList;
+        for (var i = 0; i < chipDrawingList.Count; i++)
         {
+            var chipDrawingInfo = chipDrawingList[i];
+            if (chipDrawingInfo.Chip.ChipType != mChipType)
+                continue;
+
             // remove all chips before the first active chip.
             // because the chip are sorted list base on time.
-            if (firstChip)
+            if (firstUpdate)
             {
-                firstChip = false;
-                CheckForOutTimeChip(chip);
+                firstUpdate = false;
+                CheckForOutTimeChip(chipDrawingInfo.Chip);
             }
-            var chipNode = GetChipNode(chip);
-            chipNode.localPosition = new Vector3(0, -adjustPos, 0);
-        });
+            var chipNode = GetChipNode(chipDrawingInfo.Chip);
+            chipNode.localPosition = new Vector3(0, -chipDrawingInfo.PixelDistance, 0);
+        }
 
-        if (firstChip) CheckForOutTimeChip(null);
+        if (firstUpdate) CheckForOutTimeChip(null);
     }
 
     private void CheckForOutTimeChip(Chip firstActiveChip)

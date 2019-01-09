@@ -57,8 +57,11 @@ public class SongList : Activity
                 {
                     factor -= 1.0f;
                     mItemTemplate.parent.localPosition = Vector3.zero;
-                    var focusItem = mItemTemplate.parent.GetChild(mCursorPos);
-                    focusItem.localPosition = new Vector3(SelectOffset * (1 - factor), 0);
+                    if (mItemTemplate.parent.childCount > mCursorPos)
+                    {
+                        var focusItem = mItemTemplate.parent.GetChild(mCursorPos);
+                        focusItem.localPosition = new Vector3(SelectOffset * (1 - factor), 0);
+                    }
                 }
             },
             onFinished = () =>

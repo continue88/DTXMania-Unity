@@ -14,9 +14,11 @@ public class PlayingStage : Stage
     ResultTextColumn mResultTextColumn;
     PerformanceDispaly mPerformanceDispaly;
     PlayingSpeed mPlayingSpeed;
+    ChipDrawingList mChipDrawingList = new ChipDrawingList();
     Dictionary<Chip, ChipPlayingState> mChipPlayingState = new Dictionary<Chip, ChipPlayingState>();
 
     public const float hitJudgPosY = 600f;
+    public IReadOnlyList<ChipDrawingInfo> ChipDrawingList { get { return mChipDrawingList; } }
 
     public override void OnOpen()
     {
@@ -43,9 +45,17 @@ public class PlayingStage : Stage
     {
         base.Update();
 
+        var playingTime = GetElapsedTimeForStartPlaying();
+        mChipDrawingList.Update(MainScript.Instance.PlayingScore, playingTime, mPlayingSpeed.InterpSpeed);
+
         UpdateChipState();
 
         CheckInput();
+    }
+
+    public float GetElapsedTimeForStartPlaying()
+    {
+        return Time.time - mStartTime;
     }
 
     private void InitPlayingState()
@@ -55,20 +65,20 @@ public class PlayingStage : Stage
 
     private void UpdateChipState()
     {
-        ForAllChipsDrawing(ChipType.Unknown, (chip, index, drawingTime, utterTime, adjustPos) =>
+        foreach (var chipDrawingInfo in mChipDrawingList)
         {
-            if (index == mStartDrawNumber && adjustPos > 0)
-                mStartDrawNumber++;
+            var chip = chipDrawingInfo.Chip;
+            var drawingTime = chipDrawingInfo.DrawingTime;
+            var utterTime = chipDrawingInfo.UtterTime;
 
             var user = UserManager.Instance.LoggedOnUser;
             var drumChipProperty = user.DrumChipProperty[chip.ChipType];
             var autoPlay = user.AutoPlay(drumChipProperty.AutoPlayType);
-
-            bool hitted = mChipPlayingState[chip].Hitted;
-            bool notHitted = !(hitted);
-            bool chipMissed = (drawingTime > user.MaxHitTime(JudgmentType.OK));
-            bool passedHitJudgeBar = (0 <= drawingTime);
-            bool passedHitJudgeBarUtter = (0 <= utterTime);
+            var hitted = mChipPlayingState[chip].Hitted;
+            var notHitted = !(hitted);
+            var chipMissed = (drawingTime > user.MaxHitTime(JudgmentType.OK));
+            var passedHitJudgeBar = (0 <= drawingTime);
+            var passedHitJudgeBarUtter = (0 <= utterTime);
             if (notHitted && chipMissed)
             {
                 if (autoPlay && drumChipProperty.AutoPlayON_MissJudge)
@@ -132,7 +142,7 @@ public class PlayingStage : Stage
                     return;
                 }
             }
-        });
+        }
     }
 
     private void CheckInput()
@@ -145,43 +155,6 @@ public class PlayingStage : Stage
 
             Close();
         }
-    }
-
-    public void ForAllChipsDrawing(ChipType chipType, System.Action<Chip, int, float, float, float> applyAction)
-    {
-        var score = MainScript.Instance.PlayingScore;
-        if (score == null) return;
-
-        var playingTime = GetElapsedTimeForStartPlaying();
-        for (var i = mStartDrawNumber; i >= 0 && i < score.ChipList.Count; i++)
-        {
-            var chip = score.ChipList[i];
-            if (chipType != ChipType.Unknown && chip.ChipType != chipType) continue;
-
-            var drawingTime = playingTime - (float)chip.DrawTimeSec;
-            var utterTime = playingTime - (float)chip.UtterTimeSec;
-            var speed = mPlayingSpeed.InterpSpeed;
-            var pixelDistance = GetPixleDistanceOnTime(speed, drawingTime);
-
-            // current chip is outof screen, stop processing.
-            bool aboveTopScreen = pixelDistance < -hitJudgPosY;
-            if (aboveTopScreen)
-                break;
-
-            // apply action to the drawing chips.
-            applyAction(chip, i, drawingTime, utterTime, pixelDistance);
-        }
-    }
-
-    private float GetPixleDistanceOnTime(float speed, float time)
-    {
-        const float PixelsPerMs = 0.14625f * 2.25f * 1000.0f;    // これを変えると、speed あたりの速度が変わる。
-        return (time * PixelsPerMs * speed);
-    }
-
-    public float GetElapsedTimeForStartPlaying()
-    {
-        return Time.time - mStartTime;
     }
 
     void OnChipHitted(Chip chip, JudgmentType judgeType, bool playSound, bool judge, bool hide, double time)
