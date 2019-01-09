@@ -7,10 +7,12 @@ public class PlayingStage : Stage
 {
     float mStartTime = 0;
     int mStartDrawNumber = 0;
+    Grade mGrade;
     ChipsPanel mChipsPanel;
     DrumPad mDrumPad;
     ChipLight mChipLight;
     ResultTextColumn mResultTextColumn;
+    PerformanceDispaly mPerformanceDispaly;
     Dictionary<Chip, ChipPlayingState> mChipPlayingState = new Dictionary<Chip, ChipPlayingState>();
 
     public const float hitJudgPosY = 600f;
@@ -19,10 +21,14 @@ public class PlayingStage : Stage
     {
         base.OnOpen();
 
+        mGrade = new Grade();
+        mGrade.ApplyScoreAndSetting(MainScript.Instance.PlayingScore, UserManager.Instance.LoggedOnUser);
+
         mChipsPanel = AddChild(new ChipsPanel(this, FindChild("CenterPanel/ChipsPanel").gameObject));
         mDrumPad = AddChild(new DrumPad(this, FindChild("CenterPanel/DrumPad").gameObject));
         mChipLight = AddChild(new ChipLight(this, FindChild("ChipLight").gameObject));
         mResultTextColumn = AddChild(new ResultTextColumn(FindChild("CenterPanel/ResultTextColumn").gameObject));
+        mPerformanceDispaly = AddChild(new PerformanceDispaly(mGrade, FindChild("LeftPanel/PerformanceDispaly").gameObject));
 
         foreach (var chip in MainScript.Instance.PlayingScore.ChipList)
             mChipPlayingState.Add(chip, new ChipPlayingState(chip));
@@ -49,9 +55,7 @@ public class PlayingStage : Stage
         ForAllChipsDrawing(ChipType.Unknown, (chip, index, drawingTime, utterTime, adjustPos) =>
         {
             if (index == mStartDrawNumber && adjustPos > 0)
-            {
                 mStartDrawNumber++;
-            }
 
             var user = UserManager.Instance.LoggedOnUser;
             var drumChipProperty = user.DrumChipProperty[chip.ChipType];
@@ -195,6 +199,7 @@ public class PlayingStage : Stage
                 mChipLight.OnHit(drumChipProperty.DisplayTrackType);
             }
             mResultTextColumn.OnHit(drumChipProperty.DisplayTrackType, judgeType);
+            mGrade.AddHit(judgeType);
         }
         if (hide)
         {

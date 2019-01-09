@@ -50,6 +50,18 @@ public class UserSettings
             default: return true;
         }
     }
+    public bool AutoPlayAllOn()
+    {
+        return AutoPlay_LeftCymbal &&
+            AutoPlay_HiHat &&
+            AutoPlay_LeftPedal &&
+            AutoPlay_Snare &&
+            AutoPlay_Bass &&
+            AutoPlay_HighTom &&
+            AutoPlay_LowTom &&
+            AutoPlay_FloorTom &&
+            AutoPlay_RightCymbal;
+    }
 
     public float MaxHitTime(JudgmentType type)
     {
