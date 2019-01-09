@@ -236,7 +236,22 @@ Prefab:
     - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
         type: 2}
       propertyPath: DtxFiles.Array.data[0]
-      value: \7 SuperStar\ext.dtx
+      value: /7 SuperStar/ext.dtx
+      objectReference: {fileID: 0}
+    - target: {fileID: 114302138589752238, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114302138589752238, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: m_ReferenceResolution.x
+      value: 1280
+      objectReference: {fileID: 0}
+    - target: {fileID: 114302138589752238, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: m_ReferenceResolution.y
+      value: 720
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db90b10c52ee58c4ab04fdb2d83edf9d, type: 2}

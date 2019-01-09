@@ -9,6 +9,8 @@ public class MusicNode : Node
     public string MusicPath { get; private set; }
     public Score Score { get; private set; }
 
+    static readonly char[] PathSeperator = "\\/".ToCharArray();
+
     public MusicNode(string musicPath, Node parent, Stream stream = null)
     {
         MusicPath = musicPath;
@@ -23,7 +25,7 @@ public class MusicNode : Node
             Score.LoadFromStream(stream, MusicPath) :
             Score.LoadFromFile(MusicPath);
 
-        var path = Path.GetDirectoryName(MusicPath) + "/";
+        var path = MusicPath.Substring(0, MusicPath.LastIndexOfAny(PathSeperator) + 1);
 
         Title = Score.Title;
         SubTitle = Score.Artist;

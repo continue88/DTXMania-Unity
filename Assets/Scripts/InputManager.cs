@@ -11,6 +11,6 @@ public class InputManager
     public bool HasMoveDown() { return Input.GetButtonDown("Vertical") && Input.GetAxis("Vertical") < 0; }
     public bool HasMoveRight() { return Input.GetButtonDown("Horizontal") && Input.GetAxis("Horizontal") > 0; }
     public bool HasMoveLeft() { return Input.GetButtonDown("Horizontal") && Input.GetAxis("Horizontal") < 0; }
-    public bool HasOk() { return Input.GetButtonDown("Submit"); }
+    public bool HasOk() { return Input.GetButtonDown("Submit") || (Input.touchSupported && Input.touchCount > 0); }
     public bool HasCancle() { return Input.GetButtonDown("Cancel"); }
 }
