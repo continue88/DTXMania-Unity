@@ -137,6 +137,8 @@ public class PlayingStage : Stage
     {
         if (InputManager.Instance.HasCancle())
         {
+            MainScript.Instance.WAVManager.Clear();
+
             StageManager.Instance.Open<SelectionStage>();
 
             Close();
