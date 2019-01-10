@@ -179,10 +179,10 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1280, y: 720}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -228,8 +228,11 @@ MonoBehaviour:
   UIRoot: {fileID: 224998447143416494}
   DrumSound: {fileID: 114862086186988530}
   WAVManager: {fileID: 114637757556054522}
-  MusicFolders:
-  - E:\BaiduNetdiskDownload\DTXHD 2013 Full Song\DTXFiles
+  MusicFolders: []
+  DtxFiles:
+  - /1 Because i am a girl/ext.dtx
+  - /2 WangFei XiaoJingTeng/ext.dtx
+  - /3 bleach ed5/ext.dtx
 --- !u!114 &114856861924499314
 MonoBehaviour:
   m_ObjectHideFlags: 1

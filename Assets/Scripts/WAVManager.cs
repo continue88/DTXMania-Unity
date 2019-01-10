@@ -19,7 +19,7 @@ public class WAVManager : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(clipWWW.error))
         {
-            Debug.LogError("Fail to load wave: " + clipWWW.url);
+            Debug.LogError("Fail to load wave: " + clipWWW.url + "\nError:" + clipWWW.error);
             return;
         }
 

@@ -4,10 +4,21 @@ using System.Linq;
 using System.IO;
 using System.Xml;
 using UnityEditor.Experimental.U2D;
+using System.Text;
 
 public static class EditorTools
 {
     static readonly char[] Sperator = ": [,]".ToCharArray();
+
+    [MenuItem("DTXMania/ShowAllEncodings")]
+    static void ShowAllEncodings()
+    {
+        Encoding.GetEncodings().Count(x => 
+        {
+            Debug.Log(string.Format("Name:" + x.Name + ",DisplayName:" + x.DisplayName + ",CodePage=" + x.CodePage));
+            return true;
+        });
+    }
 
     [MenuItem("DTXMania/DisableAllRayTargets")]
     static void DisableAllRayTargets()
