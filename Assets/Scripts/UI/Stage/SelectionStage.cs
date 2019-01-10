@@ -41,5 +41,10 @@ public class SelectionStage : Stage
                 Close();
             }
         }
+        if (InputManager.Instance.HasCancle())
+        {
+            StageManager.Instance.Open<LoginStage>();
+            Close();
+        }
     }
 }
