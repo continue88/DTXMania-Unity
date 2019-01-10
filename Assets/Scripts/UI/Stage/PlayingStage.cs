@@ -54,6 +54,12 @@ public class PlayingStage : Stage
         CheckInput();
     }
 
+    public override void OnClose()
+    {
+        base.OnClose();
+        MainScript.Instance.WAVManager.Clear();
+    }
+
     public float GetElapsedTimeForStartPlaying()
     {
         return Time.time - mStartTime;
@@ -150,11 +156,49 @@ public class PlayingStage : Stage
     {
         if (InputManager.Instance.HasCancle())
         {
-            MainScript.Instance.WAVManager.Clear();
-
             StageManager.Instance.Open<SelectionStage>();
-
             Close();
+            return;
+        }
+
+        InputManager.Instance.PollAllInputDevices();
+
+        var userSettings = UserManager.Instance.LoggedOnUser;
+        foreach (var chipDrawingInfo in mChipDrawingList)
+        {
+            var chip = chipDrawingInfo.Chip;
+            var drawingTime = chipDrawingInfo.DrawingTime;
+            var utterTime = chipDrawingInfo.UtterTime;
+            var drumChipProperty = userSettings.DrumChipProperty[chip.ChipType];
+            var autoPlay = userSettings.AutoPlay(drumChipProperty.AutoPlayType);
+            var chipHitted = mChipPlayingState[chip].Hitted;
+            var missed = (drawingTime > userSettings.MaxHitTime(JudgmentType.OK));
+            var passHitBarTime = (0 <= drawingTime);
+            var passUtterTime = (0 <= utterTime);
+
+            if (chipHitted || autoPlay ||
+                !(drumChipProperty.AutoPlayOFF_UserHit) ||
+                !(drawingTime >= -(userSettings.MaxHitTime(JudgmentType.OK)) && !(missed)))
+                continue;
+
+            var inputHitChip = InputManager.Instance.GetChipInput(drumChipProperty.DrumInputType);
+            if (inputHitChip)
+            {
+                var judgment = JudgmentType.OK;
+                var absJudmentTime = Mathf.Abs(drawingTime);
+                if (absJudmentTime <= userSettings.MaxHitTime(JudgmentType.PERFECT)) judgment = JudgmentType.PERFECT;
+                if (absJudmentTime <= userSettings.MaxHitTime(JudgmentType.GREAT)) judgment = JudgmentType.GREAT;
+                if (absJudmentTime <= userSettings.MaxHitTime(JudgmentType.GOOD)) judgment = JudgmentType.GOOD;
+
+                OnChipHitted(
+                    chip,
+                    judgment,
+                    (userSettings.DrumSound) ? drumChipProperty.AutoPlayOFF_UserHitSound : false,
+                    drumChipProperty.AutoPlayOFF_UserHitJudge,
+                    drumChipProperty.AutoPlayOFF_UserHitHide,
+                    utterTime);
+                mGrade.AddJudgementType(judgment);
+            }
         }
     }
 

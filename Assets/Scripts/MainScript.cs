@@ -8,6 +8,7 @@ public class MainScript : MonoBehaviour
     public Transform UIRoot;
     public DrumSound DrumSound;
     public WAVManager WAVManager;
+    public UsbMidiDriver UsbMidiDriver;
     public string[] MusicFolders;
     public string[] DtxFiles;
 

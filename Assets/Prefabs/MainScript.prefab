@@ -78,6 +78,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1767474552416078
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4622058182534784}
+  - component: {fileID: 114078148168110604}
+  m_Layer: 0
+  m_Name: UsbMidiDriver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1974694134458726
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,6 +124,7 @@ Transform:
   - {fileID: 4344186660071174}
   - {fileID: 4953183410669484}
   - {fileID: 4353208400087752}
+  - {fileID: 4622058182534784}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -136,6 +153,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4085625866039384}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4622058182534784
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1767474552416078}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4085625866039384}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4953183410669484
 Transform:
@@ -168,6 +198,17 @@ MonoBehaviour:
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
+--- !u!114 &114078148168110604
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1767474552416078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ec49e3d3a83d624fa73f2385bfe4929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114302138589752238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -228,6 +269,7 @@ MonoBehaviour:
   UIRoot: {fileID: 224998447143416494}
   DrumSound: {fileID: 114862086186988530}
   WAVManager: {fileID: 114637757556054522}
+  UsbMidiDriver: {fileID: 114078148168110604}
   MusicFolders: []
   DtxFiles:
   - /DTXFiles/1 Because i am a girl/ext.dtx
