@@ -11,11 +11,12 @@ public class InputManager
     KeyBindings mKeyBindings = new KeyBindings();
     List<DrumInputEvent> mDrumInputEvents = new List<DrumInputEvent>();
 
-    class DrumInputEvent
+    public class DrumInputEvent
     {
         public int DeviceID;
         public int Key;
         public DrumInputType Type;
+        public bool Processed = false;
     }
 
     public bool HasMoveUp() { return Input.GetButtonDown("Vertical") && Input.GetAxis("Vertical") > 0; }
@@ -24,6 +25,7 @@ public class InputManager
     public bool HasMoveLeft() { return Input.GetButtonDown("Horizontal") && Input.GetAxis("Horizontal") < 0; }
     public bool HasOk() { return Input.GetButtonDown("Submit") || (Input.touchSupported && Input.touchCount > 0); }
     public bool HasCancle() { return Input.GetButtonDown("Cancel"); }
+    public IReadOnlyList<DrumInputEvent> DrumInputEvents { get { return mDrumInputEvents; } }
 
     public void PollAllInputDevices()
     {
@@ -53,8 +55,11 @@ public class InputManager
         for (var i = 0; i < mDrumInputEvents.Count; i++)
         {
             var inputEvent = mDrumInputEvents[i];
-            if (inputEvent.Type == drumInputType)
+            if (!inputEvent.Processed && inputEvent.Type == drumInputType)
+            {
+                inputEvent.Processed = true;
                 return true;
+            }
         }
         return false;
     }

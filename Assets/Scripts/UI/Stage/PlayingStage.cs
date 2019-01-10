@@ -200,6 +200,25 @@ public class PlayingStage : Stage
                 mGrade.AddJudgementType(judgment);
             }
         }
+
+        // processing the ignore events.
+        var inputEvents = InputManager.Instance.DrumInputEvents;
+        for (var i = 0; i < inputEvents.Count; i++)
+        {
+            var inputEvent = inputEvents[i];
+            if (inputEvent.Processed)
+                continue;
+
+            foreach (var prop in userSettings.DrumChipProperty.ChipToProperty.Values)
+            { 
+                if (prop.DrumInputType == inputEvent.Type)
+                {
+                    mDrumPad.OnHit(prop.DisplayTrackType);
+                    inputEvent.Processed = true;
+                    break;
+                }
+            }
+        }
     }
 
     void OnChipHitted(Chip chip, JudgmentType judgeType, bool playSound, bool judge, bool hide, double time)
