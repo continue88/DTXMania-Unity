@@ -8,11 +8,9 @@ public class PlayingStage : Stage
     float mStartTime = 0;
     int mStartDrawNumber = 0;
     Grade mGrade;
-    ChipsPanel mChipsPanel;
     DrumPad mDrumPad;
     ChipLight mChipLight;
     ResultTextColumn mResultTextColumn;
-    PerformanceDispaly mPerformanceDispaly;
     PlayingSpeed mPlayingSpeed;
     ChipDrawingList mChipDrawingList = new ChipDrawingList();
     Dictionary<Chip, ChipPlayingState> mChipPlayingState = new Dictionary<Chip, ChipPlayingState>();
@@ -27,12 +25,15 @@ public class PlayingStage : Stage
         mGrade = new Grade();
         mGrade.ApplyScoreAndSetting(MainScript.Instance.PlayingScore, UserManager.Instance.LoggedOnUser);
 
-        mChipsPanel = AddChild(new ChipsPanel(this, FindChild("CenterPanel/ChipsPanel").gameObject));
         mDrumPad = AddChild(new DrumPad(this, FindChild("CenterPanel/DrumPad").gameObject));
         mChipLight = AddChild(new ChipLight(this, FindChild("ChipLight").gameObject));
         mResultTextColumn = AddChild(new ResultTextColumn(FindChild("CenterPanel/ResultTextColumn").gameObject));
-        mPerformanceDispaly = AddChild(new PerformanceDispaly(mGrade, FindChild("LeftPanel/PerformanceDispaly").gameObject));
         mPlayingSpeed = AddChild(new PlayingSpeed(FindChild("PlayingSpeed").gameObject));
+
+        AddChild(new ChipsPanel(this, FindChild("CenterPanel/ChipsPanel").gameObject));
+        AddChild(new PerformanceDispaly(mGrade, FindChild("LeftPanel/PerformanceDispaly").gameObject));
+        AddChild(new ComboDisplay(mGrade, FindChild("RightPanel/ComboDisplay").gameObject));
+        AddChild(new ScoreDisplay(mGrade, FindChild("LeftPanel/ScoreDisplay").gameObject));
         AddChild(new SongInfo(FindChild("SongInfo").gameObject));
 
         foreach (var chip in MainScript.Instance.PlayingScore.ChipList)

@@ -230,9 +230,9 @@ MonoBehaviour:
   WAVManager: {fileID: 114637757556054522}
   MusicFolders: []
   DtxFiles:
-  - /1 Because i am a girl/ext.dtx
-  - /2 WangFei XiaoJingTeng/ext.dtx
-  - /3 bleach ed5/ext.dtx
+  - /DTXFiles/1 Because i am a girl/ext.dtx
+  - /DTXFiles/2 WangFei XiaoJingTeng/ext.dtx
+  - /DTXFiles/3 bleach ed5/ext.dtx
 --- !u!114 &114856861924499314
 MonoBehaviour:
   m_ObjectHideFlags: 1
