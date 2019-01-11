@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShutterSwitch : Switch
+public class HalfTurnBlackFade : Switch
 {
 }
