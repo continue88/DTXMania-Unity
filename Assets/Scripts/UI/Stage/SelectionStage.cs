@@ -37,8 +37,11 @@ public class SelectionStage : Stage
             {
                 var musicNode = focusNode as MusicNode;
                 MainScript.Instance.PlayingScore = musicNode.Score;
-                StageManager.Instance.Open<SongLoadStage>();
-                Close();
+                SwitchManager.Instance.Open<ReadyPlayGo>().OnSwitchMiddleClosed = () =>
+                {
+                    StageManager.Instance.Open<SongLoadStage>();
+                    Close();
+                };
             }
         }
         if (InputManager.Instance.HasCancle())
