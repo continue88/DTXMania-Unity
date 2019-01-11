@@ -8,13 +8,8 @@ public class ScoreDisplay : Activity
     int mLastScore = -1;
     string mPreviousDigital;
     Grade mCurrentGrade;
-    List<NumberInfo> mNumberAnimInfo = new List<NumberInfo>();
-
-    class NumberInfo
-    {
-        public Text Text;
-        public Animation Anim;
-    }
+    Animation mScoreAnim;
+    List<Text> mNumberAnimInfo = new List<Text>();
 
     public ScoreDisplay(Grade grade, GameObject gameObject)
         : base(gameObject)
@@ -26,16 +21,14 @@ public class ScoreDisplay : Activity
     {
         base.OnOpen();
 
+        mScoreAnim = Transform.GetComponent<Animation>();
+
         var numberRoot = Transform;
         for (var i = 0; i < numberRoot.childCount; i++)
         {
             var numNode = numberRoot.GetChild(i);
-            mNumberAnimInfo.Add(new NumberInfo
-            {
-                Text = numNode.GetComponent<Text>(),
-                Anim = numNode.GetComponent<Animation>(),
-            });
-            mNumberAnimInfo[i].Text.text = "o";
+            mNumberAnimInfo.Add(numNode.GetComponent<Text>());
+            mNumberAnimInfo[i].text = "o";
         }
         mPreviousDigital = "".PadLeft(mNumberAnimInfo.Count, 'o');
     }
@@ -48,6 +41,8 @@ public class ScoreDisplay : Activity
         {
             UpdateScoreText(mCurrentGrade.Score);
             mLastScore = mCurrentGrade.Score;
+            if (mScoreAnim.isPlaying) mScoreAnim.Stop();
+            mScoreAnim.Play();
         }
     }
 
@@ -57,10 +52,7 @@ public class ScoreDisplay : Activity
         for (var i = 0; i < digital.Length; i++)
         {
             if (digital[i] != mPreviousDigital[i])
-            {
-                mNumberAnimInfo[mNumberAnimInfo.Count - i - 1].Anim.Play();
-                mNumberAnimInfo[mNumberAnimInfo.Count - i - 1].Text.text = digital.Substring(i, 1);
-            }
+                mNumberAnimInfo[mNumberAnimInfo.Count - i - 1].text = digital.Substring(i, 1);
         }
         mPreviousDigital = digital;
     }

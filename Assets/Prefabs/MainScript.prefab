@@ -272,7 +272,9 @@ MonoBehaviour:
   UsbMidiDriver: {fileID: 114078148168110604}
   MusicFolders: []
   DtxFiles:
-  - /DTXFiles/7 SuperStar/ext.dtx
+  - /DTXFiles/1 Because i am a girl/ext.dtx
+  - /DTXFiles/2 WangFei XiaoJingTeng/ext.dtx
+  - /DTXFiles/3 bleach ed5/ext.dtx
 --- !u!114 &114856861924499314
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -927,7 +927,6 @@ GameObject:
   - component: {fileID: 224640075984410094}
   - component: {fileID: 222151477213928972}
   - component: {fileID: 114655968393898428}
-  - component: {fileID: 111539121764910926}
   m_Layer: 5
   m_Name: 1
   m_TagString: Untagged
@@ -977,7 +976,6 @@ GameObject:
   - component: {fileID: 224461618067922956}
   - component: {fileID: 222293912171740010}
   - component: {fileID: 114167179120292110}
-  - component: {fileID: 111927830050795528}
   m_Layer: 5
   m_Name: 1 (6)
   m_TagString: Untagged
@@ -1325,7 +1323,6 @@ GameObject:
   - component: {fileID: 224988667029810996}
   - component: {fileID: 222275141599622518}
   - component: {fileID: 114701621383712136}
-  - component: {fileID: 111712538816544852}
   m_Layer: 5
   m_Name: 1 (8)
   m_TagString: Untagged
@@ -1691,7 +1688,6 @@ GameObject:
   - component: {fileID: 224511523889183366}
   - component: {fileID: 222881112245148426}
   - component: {fileID: 114435662851759792}
-  - component: {fileID: 111450758896779886}
   m_Layer: 5
   m_Name: 1 (7)
   m_TagString: Untagged
@@ -1871,7 +1867,6 @@ GameObject:
   - component: {fileID: 224154107298125550}
   - component: {fileID: 222830050252943616}
   - component: {fileID: 114989506276295112}
-  - component: {fileID: 111470622393586042}
   m_Layer: 5
   m_Name: 1 (1)
   m_TagString: Untagged
@@ -2400,7 +2395,6 @@ GameObject:
   - component: {fileID: 224412182223635080}
   - component: {fileID: 222007587110962238}
   - component: {fileID: 114897213292278902}
-  - component: {fileID: 111423450377733630}
   m_Layer: 5
   m_Name: 1 (4)
   m_TagString: Untagged
@@ -2884,7 +2878,6 @@ GameObject:
   - component: {fileID: 224546111165397640}
   - component: {fileID: 222219887580406590}
   - component: {fileID: 114064097433527886}
-  - component: {fileID: 111992475384354274}
   m_Layer: 5
   m_Name: 1 (2)
   m_TagString: Untagged
@@ -3653,7 +3646,6 @@ GameObject:
   - component: {fileID: 224063038889569534}
   - component: {fileID: 222358150128922410}
   - component: {fileID: 114330936764793954}
-  - component: {fileID: 111439300412136188}
   m_Layer: 5
   m_Name: 1 (3)
   m_TagString: Untagged
@@ -3921,6 +3913,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224177225673986476}
+  - component: {fileID: 111047743189348268}
   m_Layer: 5
   m_Name: ScoreDisplay
   m_TagString: Untagged
@@ -4151,7 +4144,6 @@ GameObject:
   - component: {fileID: 224653903768976976}
   - component: {fileID: 222444017648867018}
   - component: {fileID: 114647317828001194}
-  - component: {fileID: 111143122546938358}
   m_Layer: 5
   m_Name: 1 (5)
   m_TagString: Untagged
@@ -4939,6 +4931,21 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!111 &111047743189348268
+Animation:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1807697087037944}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!111 &111054403809973422
 Animation:
   m_ObjectHideFlags: 1
@@ -4995,21 +5002,6 @@ Animation:
   m_Animation: {fileID: 7400000, guid: 4b2162cb86c01494bab690e2b7e2dbfc, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: 4b2162cb86c01494bab690e2b7e2dbfc, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &111143122546938358
-Animation:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1848443437541352}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -5251,21 +5243,6 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!111 &111423450377733630
-Animation:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1473149623603460}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!111 &111438169808510822
 Animation:
   m_ObjectHideFlags: 1
@@ -5281,21 +5258,6 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!111 &111439300412136188
-Animation:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1739026262416932}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!111 &111446561864573752
 Animation:
   m_ObjectHideFlags: 1
@@ -5307,36 +5269,6 @@ Animation:
   m_Animation: {fileID: 7400000, guid: 13b487f52ad610d44955ed6a4dd17aa4, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: 13b487f52ad610d44955ed6a4dd17aa4, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &111450758896779886
-Animation:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1340098555896536}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &111470622393586042
-Animation:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1376866493923570}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -5397,21 +5329,6 @@ Animation:
   m_Animation: {fileID: 7400000, guid: e1864fb4fe5e35a41b254084d1a54f86, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: e1864fb4fe5e35a41b254084d1a54f86, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &111539121764910926
-Animation:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1193744502542516}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -5528,21 +5445,6 @@ Animation:
   - {fileID: 7400000, guid: 82f2528d1dd187548be4599f76552f4c, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &111712538816544852
-Animation:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1263319913680918}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
 --- !u!111 &111715939050465108
@@ -5689,21 +5591,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!111 &111927830050795528
-Animation:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1198501046515768}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!111 &111932761203373946
 Animation:
   m_ObjectHideFlags: 1
@@ -5748,21 +5635,6 @@ Animation:
   - {fileID: 7400000, guid: 6e46fcfda94f78642985ee64a1d347cb, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &111992475384354274
-Animation:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1582213117627980}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 4eaf02e39e540644093a26e88b5ea2b1, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
 --- !u!114 &114003995196042858
@@ -7068,7 +6940,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 100%
+  m_Text: oo0%
 --- !u!114 &114259160410400232
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13919,7 +13791,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 23, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 120, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224243557820192552
@@ -16157,7 +16029,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 400}
+  m_SizeDelta: {x: 170, y: 400}
   m_Pivot: {x: 1, y: 1}
 --- !u!224 &224676781544783286
 RectTransform:
