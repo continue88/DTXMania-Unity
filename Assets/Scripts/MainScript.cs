@@ -34,5 +34,6 @@ public class MainScript : MonoBehaviour
 	void Update ()
     {
         StageManager.Instance.Update();
+        SwitchManager.Instance.Update();
     }
 }

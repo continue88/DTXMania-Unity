@@ -10,9 +10,11 @@ public class TitleStage : Stage
 
         if (InputManager.Instance.HasOk())
         {
-            StageManager.Instance.Open<LoginStage>();
-
-            Close();
+            SwitchManager.Instance.Open<ShutterSwitch>().OnSwitchMiddleClosed = () =>
+            {
+                StageManager.Instance.Open<LoginStage>();
+                Close();
+            };
         }
     }
 }

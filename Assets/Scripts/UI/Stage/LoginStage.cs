@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class LoginStage : Stage
 {
+    bool mPressedCancel = false;
     Transform mUserList;
 
     public override void OnOpen()
@@ -12,8 +13,10 @@ public class LoginStage : Stage
         base.OnOpen();
 
         mUserList = FindChild("UserList");
-        if (UserManager.Instance.UserList.SelectFirst())
-            mUserList.GetChild(UserManager.Instance.UserList.SelectedIndex).GetComponent<Toggle>().isOn = true;
+        if (UserManager.Instance.LoggedOnUser == null)
+            UserManager.Instance.UserList.SelectFirst();
+
+        mUserList.GetChild(UserManager.Instance.UserList.SelectedIndex).GetComponent<Toggle>().isOn = true;
     }
 
     public override void Update()
@@ -35,6 +38,13 @@ public class LoginStage : Stage
         {
             StageManager.Instance.Open<SelectionStage>();
             Close();
+        }
+
+        if (InputManager.Instance.HasCancle())
+        {
+            if (!mPressedCancel) mPressedCancel = true;
+            else
+                Application.Quit();
         }
     }
 }

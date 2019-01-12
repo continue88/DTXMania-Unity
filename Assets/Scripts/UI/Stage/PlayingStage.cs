@@ -154,10 +154,17 @@ public class PlayingStage : Stage
 
     private void CheckInput()
     {
+        // skip input if switching.
+        if (SwitchManager.Instance.CurrentSwitch != null)
+            return;
+
         if (InputManager.Instance.HasCancle())
         {
-            StageManager.Instance.Open<SelectionStage>();
-            Close();
+            SwitchManager.Instance.Open<HalfTurnBlackFade>().OnSwitchMiddleClosed = () =>
+            {
+                StageManager.Instance.Open<SelectionStage>();
+                Close();
+            };
             return;
         }
 

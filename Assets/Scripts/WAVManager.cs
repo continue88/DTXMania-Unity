@@ -6,7 +6,16 @@ using UnityEngine;
 
 public class WAVManager : MonoBehaviour
 {
+    public AudioSource AudioSource;
+
     Dictionary<int, WaveInfo> mWavInfoList = new Dictionary<int, WaveInfo>();
+    Dictionary<string, AudioClip> mWaveCacheList = new Dictionary<string, AudioClip>();
+
+    void Start()
+    {
+        if (!AudioSource) AudioSource = GetComponent<AudioSource>();
+        if (!AudioSource) AudioSource = gameObject.AddComponent<AudioSource>();
+    }
 
     public void Clear()
     {
@@ -15,12 +24,41 @@ public class WAVManager : MonoBehaviour
         mWavInfoList.Clear();
     }
 
-    public void Sinup(int wavId, WWW clipWWW, bool loop)
+    public void PlaySound(string soundUrl, bool loop = false)
+    {
+        AudioClip audioClip;
+        if (mWaveCacheList.TryGetValue(soundUrl, out audioClip))
+        {
+            if (audioClip)
+            {
+                if (AudioSource.isPlaying) AudioSource.Stop();
+                AudioSource.loop = loop;
+                AudioSource.PlayOneShot(audioClip);
+            }
+        }
+        else
+        {
+            StartCoroutine(DelayLoadAudio(soundUrl, loop));
+        }
+    }
+
+    IEnumerator DelayLoadAudio(string url, bool loop)
+    {
+        using (var clipWWW = new WWW(url))
+        {
+            yield return clipWWW;
+            var audioClip = GetAudioClipFromWWW(clipWWW);
+            mWaveCacheList[url] = audioClip; // if it is null, still set.
+            if (audioClip) PlaySound(url, loop);
+        }
+    }
+
+    AudioClip GetAudioClipFromWWW(WWW clipWWW)
     {
         if (!string.IsNullOrEmpty(clipWWW.error))
         {
             Debug.LogError("Fail to load wave: " + clipWWW.url + "\nError:" + clipWWW.error);
-            return;
+            return null;
         }
 
         var ext = Path.GetExtension(clipWWW.url).ToLower();
@@ -32,10 +70,18 @@ public class WAVManager : MonoBehaviour
         if (!audioClip)
         {
             Debug.LogWarning("The data is not a audio type: " + clipWWW.url);
-            return;
+            return null;
         }
+        return audioClip;
+    }
 
-        var clipName = Path.GetFileNameWithoutExtension(clipWWW.url);// audioClip.name;
+    public void Sinup(int wavId, WWW clipWWW, bool loop)
+    {
+        var audioClip = GetAudioClipFromWWW(clipWWW);
+        if (!audioClip)
+            return;
+
+        var clipName = Path.GetFileNameWithoutExtension(clipWWW.url);
         var go = new GameObject(clipName);
         var drumChild = go.transform;
         drumChild.parent = transform;
