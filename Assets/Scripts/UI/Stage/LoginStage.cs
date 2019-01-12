@@ -63,7 +63,6 @@ public class LoginStage : Stage
             var userToggle = mUserList.GetChild(i).GetComponent<Toggle>();
             if (userToggle.isOn)
             {
-                Debug.Log("Select item: " + i);
                 UserManager.Instance.UserList.SelectItem(i);
                 break;
             }
