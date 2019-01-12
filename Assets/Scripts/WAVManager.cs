@@ -42,6 +42,11 @@ public class WAVManager : MonoBehaviour
         }
     }
 
+    public void Stop()
+    {
+        AudioSource.Stop();
+    }
+
     IEnumerator DelayLoadAudio(string url, bool loop)
     {
         using (var clipWWW = new WWW(url))
@@ -93,7 +98,16 @@ public class WAVManager : MonoBehaviour
     public void PlaySound(int wavId, ChipType chipType, bool muteOther, MuteGroupType muteGroup, float volume = 1.0f, float delayTime = 0.0f)
     {
         if (!mWavInfoList.ContainsKey(wavId))
+        {
+            // fallback to drum clip sound.
+            var prop = UserManager.Instance.LoggedOnUser.DrumChipProperty[chipType];
+            MainScript.Instance.DrumSound.PlaySound(
+                chipType,
+                prop.MuteBeforeUtter,
+                prop.MuteGroupType,
+                volume);
             return;
+        }
 
         if (muteOther && muteGroup != MuteGroupType.Unknown)
         {

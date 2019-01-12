@@ -35,6 +35,10 @@ public class SelectionStage : Stage
             var focusNode = MainScript.Instance.MusicTree.FocusNode;
             if (focusNode is MusicNode)
             {
+                // stop the previous audio sound.
+                MainScript.Instance.WAVManager.Stop();
+
+                // start fading to the song load stage.
                 var musicNode = focusNode as MusicNode;
                 MainScript.Instance.PlayingScore = musicNode.Score;
                 SwitchManager.Instance.Open<ReadyPlayGo>().OnSwitchMiddleClosed = () =>

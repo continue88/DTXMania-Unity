@@ -99,9 +99,6 @@ public class SongList : Activity
         mMoveDown = e.DeselectNode == e.SelectedNode.PreNode;
         mUIAnimation?.ResetToBeginning();
         mUIAnimation?.PlayForward();
-
-        // try to play the preview audio.
-        MainScript.Instance.WAVManager.PlaySound(e.SelectedNode.PreviewAudioPath, true);
     }
 
     /// <summary>
@@ -122,6 +119,9 @@ public class SongList : Activity
             BuildSongItem(nodeToShow, i);
             nodeToShow = nodeToShow.NextNode;
         }
+
+        // try to play the preview audio.
+        MainScript.Instance.WAVManager.PlaySound(nodeToShow.PreviewAudioPath, true);
     }
 
     /// <summary>
