@@ -6,6 +6,8 @@ public class UsbMidiDriver : MonoBehaviour
 {
     Dictionary<int, MidiInputStatus> mMidiNoteInput = new Dictionary<int, MidiInputStatus>();
 
+    public System.Action<string> OnMidiNoteOn;
+
     class MidiInputStatus
     {
         public bool PreviousOn;
@@ -40,6 +42,8 @@ public class UsbMidiDriver : MonoBehaviour
 
     void onMidiNoteOn(string noteInfo)
     {
+        OnMidiNoteOn?.Invoke(noteInfo);
+
         if (string.IsNullOrEmpty(noteInfo)) return;
 
         // deviceAddress,cable,channel,note,velocity
@@ -55,7 +59,7 @@ public class UsbMidiDriver : MonoBehaviour
     {
         MidiInputStatus inputStatus;
         if (!mMidiNoteInput.TryGetValue(midiNote, out inputStatus))
-            inputStatus = new MidiInputStatus();
+            mMidiNoteInput[midiNote] = inputStatus = new MidiInputStatus();
         mMidiNoteInput[midiNote].CurrentOn = onOff;
     }
 

@@ -44,7 +44,7 @@ public class InputManager
         {
             foreach (var idKey in mKeyBindings.MIDItoDrum)
             {
-                if (midiDriver.GetMidiNoteOn(idKey.Key.Key))
+                if (idKey.Key.DeviceId == 0 && midiDriver.GetMidiNoteOn(idKey.Key.Key))
                     mDrumInputEvents.Add(new DrumInputEvent { DeviceID = idKey.Key.DeviceId, Key = idKey.Key.Key, Type = idKey.Value });
             }
         }

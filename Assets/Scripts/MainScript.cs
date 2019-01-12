@@ -18,12 +18,15 @@ public class MainScript : MonoBehaviour
     public Score PlayingScore { get; set; } = null;
     public float InterpSpeed { get; private set; } = 1.0f;
 
-    // Use this for initialization
-    void Start ()
+    private void Awake()
     {
         Instance = this;
         DontDestroyOnLoad(this);
+    }
 
+    // Use this for initialization
+    void Start ()
+    {
         if (!DrumSound) DrumSound = GetComponent<DrumSound>();
         if (!WAVManager) WAVManager = GetComponent<WAVManager>();
 
