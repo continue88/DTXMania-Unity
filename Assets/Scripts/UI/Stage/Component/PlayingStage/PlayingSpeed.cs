@@ -53,13 +53,13 @@ public class PlayingSpeed : Activity
 
     private void CheckInput()
     {
-        if (InputManager.Instance.HasMoveUp())
+        if (InputManager.Instance.HasMoveUp(false))
         {
             var user = UserManager.Instance.LoggedOnUser;
             SetSpeed(user.ScrollSpeed + 0.5f);
         }
 
-        if (InputManager.Instance.HasMoveDown())
+        if (InputManager.Instance.HasMoveDown(false))
         {
             var user = UserManager.Instance.LoggedOnUser;
             SetSpeed(user.ScrollSpeed - 0.5f);

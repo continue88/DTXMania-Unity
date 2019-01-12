@@ -19,12 +19,59 @@ public class InputManager
         public bool Processed = false;
     }
 
-    public bool HasMoveUp() { return Input.GetButtonDown("Vertical") && Input.GetAxis("Vertical") > 0; }
-    public bool HasMoveDown() { return Input.GetButtonDown("Vertical") && Input.GetAxis("Vertical") < 0; }
-    public bool HasMoveRight() { return Input.GetButtonDown("Horizontal") && Input.GetAxis("Horizontal") > 0; }
-    public bool HasMoveLeft() { return Input.GetButtonDown("Horizontal") && Input.GetAxis("Horizontal") < 0; }
-    public bool HasOk() { return Input.GetButtonDown("Submit") || (Input.touchSupported && Input.touchCount > 0); }
-    public bool HasCancle() { return Input.GetButtonDown("Cancel"); }
+    public bool HasMoveUp(bool checkDrumInput = true)
+    {
+        if (Input.GetButtonDown("Vertical") && Input.GetAxis("Vertical") > 0) return true;
+        if (checkDrumInput && HasAnyDrumInput(
+            DrumInputType.Tom1, 
+            DrumInputType.Tom1_Rim)) return true;
+        return false;
+    }
+    public bool HasMoveDown(bool checkDrumInput = true)
+    {
+        if (Input.GetButtonDown("Vertical") && Input.GetAxis("Vertical") < 0) return true;
+        if (checkDrumInput && HasAnyDrumInput(
+            DrumInputType.Tom2, 
+            DrumInputType.Tom2_Rim)) return true;
+        return false;
+    }
+    public bool HasMoveRight(bool checkDrumInput = true)
+    {
+        if (Input.GetButtonDown("Horizontal") && Input.GetAxis("Horizontal") > 0) return true;
+        if (checkDrumInput && HasAnyDrumInput(
+            DrumInputType.Tom3, 
+            DrumInputType.Tom3_Rim)) return true;
+        return false;
+    }
+    public bool HasMoveLeft(bool checkDrumInput = true)
+    {
+        if (Input.GetButtonDown("Horizontal") && Input.GetAxis("Horizontal") < 0) return true;
+        if (checkDrumInput && HasAnyDrumInput(
+            DrumInputType.Snare, 
+            DrumInputType.Snare_ClosedRim, 
+            DrumInputType.Snare_OpenRim)) return true;
+        return false;
+    }
+    public bool HasOk(bool checkDrumInput = true)
+    {
+        if (Input.GetButtonDown("Submit")) return true;
+        if (checkDrumInput && HasAnyDrumInput(
+            DrumInputType.LeftCrash,
+            DrumInputType.RightCrash,
+            DrumInputType.China,
+            DrumInputType.Ride,
+            DrumInputType.Splash)) return true;
+        return false;
+    }
+    public bool HasCancle(bool checkDrumInput = true)
+    {
+        if (Input.GetButtonDown("Cancel")) return true;
+        if (checkDrumInput && HasAnyDrumInput(
+            DrumInputType.Tom3,
+            DrumInputType.Tom3_Rim)) return true;
+        return false;
+    }
+
     public IReadOnlyList<DrumInputEvent> DrumInputEvents { get { return mDrumInputEvents; } }
 
     public void PollAllInputDevices()
@@ -50,7 +97,26 @@ public class InputManager
         }
     }
 
-    public bool GetChipInput(DrumInputType drumInputType)
+    public bool HasAnyDrumInput(params DrumInputType[] drumInputTypes)
+    {
+        for (var i = 0; i < mDrumInputEvents.Count; i++)
+        {
+            var inputEvent = mDrumInputEvents[i];
+            if (inputEvent.Processed) continue;
+            
+            for (var j = 0; j < drumInputTypes.Length; j++)
+            {
+                if (inputEvent.Type == drumInputTypes[j])
+                {
+                    inputEvent.Processed = true;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public bool GetDrumInput(DrumInputType drumInputType)
     {
         for (var i = 0; i < mDrumInputEvents.Count; i++)
         {

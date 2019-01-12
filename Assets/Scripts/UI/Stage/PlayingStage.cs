@@ -158,7 +158,7 @@ public class PlayingStage : Stage
         if (SwitchManager.Instance.CurrentSwitch != null)
             return;
 
-        if (InputManager.Instance.HasCancle())
+        if (InputManager.Instance.HasCancle(false))
         {
             SwitchManager.Instance.Open<HalfTurnBlackFade>().OnSwitchMiddleClosed = () =>
             {
@@ -188,7 +188,7 @@ public class PlayingStage : Stage
                 !(drawingTime >= -(userSettings.MaxHitTime(JudgmentType.OK)) && !(missed)))
                 continue;
 
-            var inputHitChip = InputManager.Instance.GetChipInput(drumChipProperty.DrumInputType);
+            var inputHitChip = InputManager.Instance.GetDrumInput(drumChipProperty.DrumInputType);
             if (inputHitChip)
             {
                 var judgment = JudgmentType.OK;
