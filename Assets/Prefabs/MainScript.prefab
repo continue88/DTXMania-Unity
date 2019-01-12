@@ -370,8 +370,36 @@ MonoBehaviour:
   MusicFolders: []
   DtxFiles:
   - /DTXFiles/1 Because i am a girl/ext.dtx
+  - /DTXFiles/10 Jay - ShuiShouPaShui/ext.dtx
+  - /DTXFiles/11 Jay Chou - Princess Disease/Princess Disease.dtx
+  - /DTXFiles/12 bleach ed5 full/ext.dtx
+  - /DTXFiles/13 Claire Guo - The Next Dawn/The Next Dawn.dtx
+  - /DTXFiles/14 Janice M. Vidal - Even If The World No Fairy Tale/Even If The World
+    No Fairy Tale.dtx
+  - /DTXFiles/15 bleach op2/ext.dtx
+  - /DTXFiles/16 Tank - Exclusive Angel/Exclusive Angel.dtx
+  - /DTXFiles/17 Wanting Qu - You Exist In My Song/You Exist In My Song.dtx
+  - /DTXFiles/18 Beyond - BuZaiYouYu/ext.dtx
+  - /DTXFiles/19 bleach op3/ext.dtx
   - /DTXFiles/2 WangFei XiaoJingTeng/ext.dtx
+  - /DTXFiles/20 WuBai - Tongkuderen/ext.dtx
+  - /DTXFiles/21 bleach op15/ext.dtx
+  - /DTXFiles/22 Hu Xia - In Those Years/In Those Years.dtx
+  - /DTXFiles/23 Teresa Teng - I Only Care About You/I Only Care About You.dtx
+  - /DTXFiles/24 Beyond - QingRen/ext.dtx
+  - /DTXFiles/25 ke$ha - Tik Tok/ext.dtx
+  - /DTXFiles/26 Ladygaga - Poke Face/ext.dtx
+  - /DTXFiles/27 nobody/ext.dtx
+  - /DTXFiles/28 ZhangZhenYue - ZaiJian/ext.dtx
+  - /DTXFiles/29 ZongGuanXian - GongLu/ext.dtx
   - /DTXFiles/3 bleach ed5/ext.dtx
+  - /DTXFiles/30 SuiYueWuSheng/ext.dtx
+  - /DTXFiles/4 Mayday - Wen Rou/Wen Rou.dtx
+  - /DTXFiles/5 Nan Quan Mama - As A Child/As A Child.dtx
+  - /DTXFiles/6 bleach op1/ext.dtx
+  - /DTXFiles/7 SuperStar/ext.dtx
+  - /DTXFiles/8 Xue/ext.dtx
+  - /DTXFiles/9 bleach op5/ext.dtx
 --- !u!114 &114856861924499314
 MonoBehaviour:
   m_ObjectHideFlags: 1

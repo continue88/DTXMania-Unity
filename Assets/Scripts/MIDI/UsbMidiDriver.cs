@@ -4,7 +4,19 @@ using UnityEngine;
 
 public class UsbMidiDriver : MonoBehaviour
 {
-    Dictionary<int, bool> mMidiNoteInput = new Dictionary<int, bool>();
+    Dictionary<int, MidiInputStatus> mMidiNoteInput = new Dictionary<int, MidiInputStatus>();
+
+    class MidiInputStatus
+    {
+        public bool PreviousOn;
+        public bool CurrentOn;
+    }
+
+    private void LateUpdate()
+    {
+        foreach (var status in mMidiNoteInput.Values)
+            status.PreviousOn = status.CurrentOn;
+    }
 
     void onDeviceAttached(string deviceName) { }
     void onDeviceDetached(string deviceName) { }
@@ -20,10 +32,10 @@ public class UsbMidiDriver : MonoBehaviour
         // deviceAddress,cable,channel,note,velocity
         var segments = noteInfo.Split(',');
         var midiNote = 0;
-        if (segments.Length == 5 && int.TryParse(segments[3], out midiNote))
+        if (!int.TryParse(segments[segments.Length - 2], out midiNote))
             return;
 
-        mMidiNoteInput[midiNote] = false;
+        OnMidiNoteChanged(midiNote, false);
     }
 
     void onMidiNoteOn(string noteInfo)
@@ -33,15 +45,25 @@ public class UsbMidiDriver : MonoBehaviour
         // deviceAddress,cable,channel,note,velocity
         var segments = noteInfo.Split(',');
         var midiNote = 0;
-        if (segments.Length == 5 && int.TryParse(segments[3], out midiNote))
+        if (!int.TryParse(segments[segments.Length - 2], out midiNote))
             return;
 
-        mMidiNoteInput[midiNote] = true;
+        OnMidiNoteChanged(midiNote, true);
+    }
+
+    void OnMidiNoteChanged(int midiNote, bool onOff)
+    {
+        MidiInputStatus inputStatus;
+        if (!mMidiNoteInput.TryGetValue(midiNote, out inputStatus))
+            inputStatus = new MidiInputStatus();
+        mMidiNoteInput[midiNote].CurrentOn = onOff;
     }
 
     public bool GetMidiNoteOn(int midiNote)
     {
-        var inputOn = false;
-        return mMidiNoteInput.TryGetValue(midiNote, out inputOn) && inputOn;
+        MidiInputStatus inputStatus;
+        return mMidiNoteInput.TryGetValue(midiNote, out inputStatus) && 
+            !inputStatus.PreviousOn &&
+            inputStatus.CurrentOn;
     }
 }

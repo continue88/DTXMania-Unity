@@ -20,6 +20,9 @@ public class SongLoadStage : Stage
 
     IEnumerator DelayOpen()
     {
+        while (SwitchManager.Instance.CurrentSwitch != null)
+            yield return null;
+
         MainScript.Instance.WAVManager.Clear();
 
         var playingScore = MainScript.Instance.PlayingScore;
@@ -36,8 +39,10 @@ public class SongLoadStage : Stage
 
         Resources.UnloadUnusedAssets();
 
-        StageManager.Instance.Open<PlayingStage>();
+        yield return new WaitForSeconds(1.0f);
 
+        StageManager.Instance.Open<PlayingStage>();
+        
         Close();
     }
 }
