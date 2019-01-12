@@ -36,8 +36,11 @@ public class LoginStage : Stage
 
         if (InputManager.Instance.HasOk())
         {
-            StageManager.Instance.Open<SelectionStage>();
-            Close();
+            SwitchManager.Instance.Open<HalfTurnBlackFade>().OnSwitchMiddleClosed = () =>
+            {
+                StageManager.Instance.Open<SelectionStage>();
+                Close();
+            };
         }
 
         if (InputManager.Instance.HasCancle())

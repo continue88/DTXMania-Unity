@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LaunchStage : Stage
 {
+    Text mTextCount;
+
     public override void OnOpen()
     {
         base.OnOpen();
+
+        mTextCount = GetComponent<Text>("TextCount");
 
         StartCoroutine(DelayOpen());
     }
@@ -16,6 +21,7 @@ public class LaunchStage : Stage
     {
         yield return new WaitForSeconds(0.2f);
 
+        var totalLoaded = 0;
         foreach (var folder in MainScript.Instance.MusicFolders)
         {
             if (!Directory.Exists(folder)) continue;
@@ -29,6 +35,9 @@ public class LaunchStage : Stage
 
                     var musicNode = MainScript.Instance.MusicTree.LoadMusicNode(file);
                     if (musicNode == null) continue;
+
+                    totalLoaded++;
+                    mTextCount.text = totalLoaded.ToString();
 
                     // try to delay load the preview image.
                     if (!string.IsNullOrEmpty(musicNode.PreviewImagePath))
@@ -54,6 +63,9 @@ public class LaunchStage : Stage
 
                 var musicNode = MainScript.Instance.MusicTree.LoadMusicNode(www);
                 if (musicNode == null) continue;
+
+                totalLoaded++;
+                mTextCount.text = totalLoaded.ToString();
 
                 // try to delay load the preview image.
                 if (!string.IsNullOrEmpty(musicNode.PreviewImagePath))

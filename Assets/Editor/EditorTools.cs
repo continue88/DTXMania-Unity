@@ -95,7 +95,7 @@ public static class EditorTools
                 uvTopRight = new Vector2(sp.rect.xMax / width, sp.rect.yMax / height),
                 maxX = Mathf.RoundToInt(sp.rect.width),
                 minY = -Mathf.RoundToInt(sp.rect.height),
-                advance = Mathf.RoundToInt(sp.rect.width),
+                advance = Mathf.RoundToInt(sp.rect.width),// - 6, // encoding in the code.
             }).ToArray();
         AssetDatabase.CreateAsset(font, path);
     }

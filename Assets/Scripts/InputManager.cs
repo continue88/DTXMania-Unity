@@ -21,6 +21,7 @@ public class InputManager
 
     public bool HasMoveUp(bool checkDrumInput = true)
     {
+        if (!CheckingInput()) return false;
         if (Input.GetButtonDown("Vertical") && Input.GetAxis("Vertical") > 0) return true;
         if (checkDrumInput && HasAnyDrumInput(
             DrumInputType.Tom1, 
@@ -29,6 +30,7 @@ public class InputManager
     }
     public bool HasMoveDown(bool checkDrumInput = true)
     {
+        if (!CheckingInput()) return false;
         if (Input.GetButtonDown("Vertical") && Input.GetAxis("Vertical") < 0) return true;
         if (checkDrumInput && HasAnyDrumInput(
             DrumInputType.Tom2, 
@@ -37,6 +39,7 @@ public class InputManager
     }
     public bool HasMoveRight(bool checkDrumInput = true)
     {
+        if (!CheckingInput()) return false;
         if (Input.GetButtonDown("Horizontal") && Input.GetAxis("Horizontal") > 0) return true;
         if (checkDrumInput && HasAnyDrumInput(
             DrumInputType.Tom3, 
@@ -45,6 +48,7 @@ public class InputManager
     }
     public bool HasMoveLeft(bool checkDrumInput = true)
     {
+        if (!CheckingInput()) return false;
         if (Input.GetButtonDown("Horizontal") && Input.GetAxis("Horizontal") < 0) return true;
         if (checkDrumInput && HasAnyDrumInput(
             DrumInputType.Snare, 
@@ -54,6 +58,7 @@ public class InputManager
     }
     public bool HasOk(bool checkDrumInput = true)
     {
+        if (!CheckingInput()) return false;
         if (Input.GetButtonDown("Submit")) return true;
         if (checkDrumInput && HasAnyDrumInput(
             DrumInputType.LeftCrash,
@@ -65,11 +70,24 @@ public class InputManager
     }
     public bool HasCancle(bool checkDrumInput = true)
     {
+        if (!CheckingInput()) return false;
         if (Input.GetButtonDown("Cancel")) return true;
         if (checkDrumInput && HasAnyDrumInput(
             DrumInputType.Tom3,
             DrumInputType.Tom3_Rim)) return true;
         return false;
+    }
+
+    /// <summary>
+    /// get the checing input
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckingInput()
+    {
+        // ignore the input if we are in a switching.
+        if (SwitchManager.Instance.CurrentSwitch != null)
+            return false;
+        return true;
     }
 
     public IReadOnlyList<DrumInputEvent> DrumInputEvents { get { return mDrumInputEvents; } }
@@ -99,6 +117,7 @@ public class InputManager
 
     public bool HasAnyDrumInput(params DrumInputType[] drumInputTypes)
     {
+        if (!CheckingInput()) return false;
         for (var i = 0; i < mDrumInputEvents.Count; i++)
         {
             var inputEvent = mDrumInputEvents[i];
@@ -118,6 +137,7 @@ public class InputManager
 
     public bool GetDrumInput(DrumInputType drumInputType)
     {
+        if (!CheckingInput()) return false;
         for (var i = 0; i < mDrumInputEvents.Count; i++)
         {
             var inputEvent = mDrumInputEvents[i];
