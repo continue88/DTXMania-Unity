@@ -168,8 +168,6 @@ public class PlayingStage : Stage
             return;
         }
 
-        InputManager.Instance.PollAllInputDevices();
-
         var userSettings = UserManager.Instance.LoggedOnUser;
         foreach (var chipDrawingInfo in mChipDrawingList)
         {

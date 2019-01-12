@@ -11,6 +11,10 @@ public class InputManager
     KeyBindings mKeyBindings = new KeyBindings();
     List<DrumInputEvent> mDrumInputEvents = new List<DrumInputEvent>();
 
+    public IReadOnlyList<DrumInputEvent> DrumInputEvents => mDrumInputEvents;
+    public IReadOnlyDictionary<KeyBindings.IdKey, DrumInputType> KeyboardToDrum => mKeyBindings.KeyboardToDrum;
+    public IReadOnlyDictionary<KeyBindings.IdKey, DrumInputType> MIDItoDrum => mKeyBindings.MIDItoDrum;
+
     public class DrumInputEvent
     {
         public int DeviceID;
@@ -19,6 +23,27 @@ public class InputManager
         public bool Processed = false;
     }
 
+    public bool HasOk(bool checkDrumInput = true)
+    {
+        if (!CheckingInput()) return false;
+        if (Input.GetButtonDown("Submit")) return true;
+        if (checkDrumInput && HasAnyDrumInput(
+            DrumInputType.LeftCrash,
+            DrumInputType.RightCrash,
+            DrumInputType.China,
+            DrumInputType.Ride,
+            DrumInputType.Splash)) return true;
+        return false;
+    }
+    public bool HasCancle(bool checkDrumInput = true)
+    {
+        if (!CheckingInput()) return false;
+        if (Input.GetButtonDown("Cancel")) return true;
+        if (checkDrumInput && HasAnyDrumInput(
+            DrumInputType.Tom3,
+            DrumInputType.Tom3_Rim)) return true;
+        return false;
+    }
     public bool HasMoveUp(bool checkDrumInput = true)
     {
         if (!CheckingInput()) return false;
@@ -56,27 +81,6 @@ public class InputManager
             DrumInputType.Snare_OpenRim)) return true;
         return false;
     }
-    public bool HasOk(bool checkDrumInput = true)
-    {
-        if (!CheckingInput()) return false;
-        if (Input.GetButtonDown("Submit")) return true;
-        if (checkDrumInput && HasAnyDrumInput(
-            DrumInputType.LeftCrash,
-            DrumInputType.RightCrash,
-            DrumInputType.China,
-            DrumInputType.Ride,
-            DrumInputType.Splash)) return true;
-        return false;
-    }
-    public bool HasCancle(bool checkDrumInput = true)
-    {
-        if (!CheckingInput()) return false;
-        if (Input.GetButtonDown("Cancel")) return true;
-        if (checkDrumInput && HasAnyDrumInput(
-            DrumInputType.Tom3,
-            DrumInputType.Tom3_Rim)) return true;
-        return false;
-    }
 
     /// <summary>
     /// get the checing input
@@ -90,9 +94,12 @@ public class InputManager
         return true;
     }
 
-    public IReadOnlyList<DrumInputEvent> DrumInputEvents { get { return mDrumInputEvents; } }
+    public void Update()
+    {
+        PollAllInputDevices();
+    }
 
-    public void PollAllInputDevices()
+    void PollAllInputDevices()
     {
         mDrumInputEvents.Clear();
 
@@ -133,6 +140,11 @@ public class InputManager
             }
         }
         return false;
+    }
+
+    public void EnqueueDrumInputEvent(DrumInputEvent drumInputEvent)
+    {
+        mDrumInputEvents.Add(drumInputEvent);
     }
 
     public bool GetDrumInput(DrumInputType drumInputType)

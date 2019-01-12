@@ -11,6 +11,7 @@ public class MainScript : MonoBehaviour
     public UsbMidiDriver UsbMidiDriver;
     public string[] MusicFolders;
     public string[] DtxFiles;
+    public bool CheckExteranlFiles = true;
 
     public static MainScript Instance { get; private set; }
 
@@ -38,5 +39,10 @@ public class MainScript : MonoBehaviour
     {
         StageManager.Instance.Update();
         SwitchManager.Instance.Update();
+    }
+
+    private void LateUpdate()
+    {
+        InputManager.Instance.Update();
     }
 }
