@@ -65,6 +65,17 @@ public class LaunchStage : Stage
         {
             Debug.Log("externalFolder=" + externalFolder);
             musicFolders.Add(externalFolder);
+
+            if (externalFolder.Contains("Android"))
+            {
+                var baseDir = externalFolder.Substring(0, externalFolder.IndexOf("Android"));
+                var checkDir = baseDir + "DTXFiles";
+                if (Directory.Exists(checkDir))
+                {
+                    Debug.Log("Find DTXFiles:" + checkDir);
+                    musicFolders.Add(checkDir);
+                }
+            }
         }
 
         var totalLoaded = 0;

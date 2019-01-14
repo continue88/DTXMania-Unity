@@ -13,7 +13,7 @@ public class LoginStage : Stage
     {
         base.OnOpen();
 
-        mUserList = FindChild("UserList");
+        mUserList = FindChild("LoginForm/UserList");
         for (var i = 0; i < mUserList.childCount; i++)
             mUserList.GetChild(i).GetComponent<Toggle>().onValueChanged.AddListener(OnToggleValueChanged);
 

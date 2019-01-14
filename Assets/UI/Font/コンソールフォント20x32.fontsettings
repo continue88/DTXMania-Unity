@@ -8,7 +8,7 @@ Font:
   m_Name: "\u30B3\u30F3\u30BD\u30FC\u30EB\u30D5\u30A9\u30F3\u30C820x32"
   serializedVersion: 5
   m_LineSpacing: 0.1
-  m_DefaultMaterial: {fileID: 0}
+  m_DefaultMaterial: {fileID: 2100000, guid: 0942289f90450c049b13e9b3d4928ac8, type: 2}
   m_FontSize: 0
   m_Texture: {fileID: 0}
   m_AsciiStartOffset: 0

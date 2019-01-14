@@ -9,6 +9,16 @@ public class InputDelegate : MonoBehaviour
         ManualyInputKey(DrumInputType.LeftCrash);
     }
 
+    public void OnMoveUp()
+    {
+        ManualyInputKey(DrumInputType.Tom1);
+    }
+
+    public void OnMoveDown()
+    {
+        ManualyInputKey(DrumInputType.Tom2);
+    }
+
     public void ManualyInputKey(DrumInputType drumInputType)
     {
         InputManager.Instance.EnqueueDrumInputEvent(new InputManager.DrumInputEvent
