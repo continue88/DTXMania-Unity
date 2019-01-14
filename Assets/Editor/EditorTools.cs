@@ -90,7 +90,7 @@ public static class EditorTools
         font.characterInfo = ai.GetSpriteRects()
             .Select(sp => new CharacterInfo
             {
-                index = sp.name[0],
+                index = sp.name[sp.name.Length - 1],
                 uvBottomLeft = new Vector2(sp.rect.xMin / width, sp.rect.yMin / height),
                 uvTopRight = new Vector2(sp.rect.xMax / width, sp.rect.yMax / height),
                 maxX = Mathf.RoundToInt(sp.rect.width),

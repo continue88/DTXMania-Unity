@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -79,41 +80,25 @@ public class LaunchStage : Stage
         }
 
         var totalLoaded = 0;
+        var streamPath = Application.streamingAssetsPath;
+        var dtxFiles = new List<string>(MainScript.Instance.DtxFiles.Select(musicFile => streamPath + musicFile));
         foreach (var folder in musicFolders)
         {
             if (!Directory.Exists(folder)) continue;
 
             foreach (var ext in MusicTree.SearchExtensions)
             {
-                yield return new WaitForEndOfFrame();
                 foreach (var file in Directory.GetFiles(folder, "*" + ext, SearchOption.AllDirectories))
                 {
-                    yield return new WaitForEndOfFrame();
-
-                    var musicNode = MainScript.Instance.MusicTree.LoadMusicNode(file);
-                    if (musicNode == null) continue;
-
-                    totalLoaded++;
-                    mTextCount.text = totalLoaded.ToString();
-
-                    // try to delay load the preview image.
-                    if (!string.IsNullOrEmpty(musicNode.PreviewImagePath))
-                    {
-                        using (var www = new WWW(musicNode.PreviewImagePath))
-                        {
-                            yield return www;
-                            musicNode.OnLoadPreviewImage(www);
-                        }
-                    }
+                    var dtxPath = file;
+                    dtxFiles.Add("file://" + dtxPath);
                 }
             }
         }
 
         // load dtx files in the streaming asset path.
-        var streamPath = Application.streamingAssetsPath;
-        foreach (var musicFile in MainScript.Instance.DtxFiles)
+        foreach (var dtxPath in dtxFiles)
         {
-            var dtxPath = streamPath + musicFile;
             using (var www = new WWW(dtxPath))
             {
                 yield return www;
@@ -122,7 +107,7 @@ public class LaunchStage : Stage
                 if (musicNode == null) continue;
 
                 totalLoaded++;
-                mTextCount.text = totalLoaded.ToString();
+                mTextCount.text = string.Format("{0}/{1}", totalLoaded, dtxFiles.Count);
 
                 // try to delay load the preview image.
                 if (!string.IsNullOrEmpty(musicNode.PreviewImagePath))

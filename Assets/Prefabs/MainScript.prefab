@@ -367,8 +367,10 @@ MonoBehaviour:
   DrumSound: {fileID: 114862086186988530}
   WAVManager: {fileID: 114637757556054522}
   UsbMidiDriver: {fileID: 114078148168110604}
-  MusicFolders: []
-  DtxFiles: []
+  MusicFolders:
+  - E:\BaiduNetdiskDownload\DTXHD 2013 Full Song\DTXFiles
+  DtxFiles:
+  - /DTXFiles/1 Because i am a girl/ext.dtx
   CheckExteranlFiles: 1
 --- !u!114 &114856861924499314
 MonoBehaviour:

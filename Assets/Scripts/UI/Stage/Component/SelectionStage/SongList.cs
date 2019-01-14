@@ -110,6 +110,9 @@ public class SongList : Activity
         var nodeToShow = musicTree.FocusNode;
         if (nodeToShow == null) return;
 
+        // try to play the preview audio.
+        MainScript.Instance.WAVManager.PlaySound(nodeToShow.PreviewAudioPath, true);
+
         for (var i = 0; i < mCursorPos; i++)
             nodeToShow = nodeToShow.PreNode;
 
@@ -119,9 +122,6 @@ public class SongList : Activity
             BuildSongItem(nodeToShow, i);
             nodeToShow = nodeToShow.NextNode;
         }
-
-        // try to play the preview audio.
-        MainScript.Instance.WAVManager.PlaySound(nodeToShow.PreviewAudioPath, true);
     }
 
     /// <summary>
