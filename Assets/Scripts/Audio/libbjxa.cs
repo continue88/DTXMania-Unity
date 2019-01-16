@@ -182,6 +182,8 @@ namespace bjxa
         DecoderState state;
         Format fmt;
 
+        public int Blocks { get; private set; }
+        public int Samples => (int)(Blocks * fmt.BlockSamples);
         public int Channels => (int)fmt.Channels;
         public int SampleRate => fmt.SamplesRate;
 
@@ -257,7 +259,9 @@ namespace bjxa
         public float[] Decode(byte[] xa)
         {
             var header = ReadHeader(xa);
-            var pcmData = new float[header.Blocks * header.BlockSamples];
+            Blocks = (int)header.Blocks;
+
+            var pcmData = new float[header.Blocks * header.BlockSamples * header.Channels];
             var totalPcmBlocks = (long)0;
             Decode(xa, Format.HEADER_SIZE_XA, pcmData, out totalPcmBlocks);
             return pcmData;
@@ -337,19 +341,17 @@ namespace bjxa
             if (state == null) throw new InvalidOperationException("Decoder not ready");
             if (xa == null) throw new ArgumentNullException("bjxa.Decoder.Decode: xa");
             if (pcm == null) throw new ArgumentNullException("bjxa.Decoder.Decode: pcm");
+            if (fmt.Blocks == 0) throw new InvalidOperationException("XA stream fully decoded");
 
-            if (fmt.Blocks == 0)
-                throw new InvalidOperationException("XA stream fully decoded");
+            var xaLen = xa.Length * sizeof(byte);
+            var pcmLen = pcm.Length * sizeof(short);
+            var pcmOff = 0;
+            var xaBuf = new byte[state.BlockSize];
+            var pcmBuf = new short[fmt.BlockSamples];
+            var blocks = 0;
+            var pcm_block = Math.Min(fmt.BlockSizePcm, fmt.DataLengthPcm);
 
-            int xaLen = xa.Length * sizeof(byte);
-            int pcmLen = pcm.Length * sizeof(short);
-            int pcmOff = 0;
-            byte[] xaBuf = new byte[state.BlockSize];
-            short[] pcmBuf = new short[fmt.BlockSamples];
-            int blocks = 0;
-            long pcm_block = Math.Min(fmt.BlockSizePcm, fmt.DataLengthPcm);
             totalPcmBlocks = 0;
-
             while (fmt.Blocks > 0 && xaLen >= fmt.BlockSizeXa && pcmLen >= pcm_block)
             {
                 Array.Copy(xa, xaOff, xaBuf, 0, xaBuf.Length);
@@ -372,6 +374,7 @@ namespace bjxa
                 //Array.Copy(pcmBuf, 0, pcm, pcmOff, pcm_block / sizeof(short));
                 for (var i = 0; i < pcm_block / sizeof(short); i++)
                     pcm[i] = (float)pcmBuf[i] / short.MaxValue;
+
                 pcmOff += pcmBuf.Length;
                 pcmLen -= (int)pcm_block;
                 totalPcmBlocks += pcm_block;

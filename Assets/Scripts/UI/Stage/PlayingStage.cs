@@ -218,8 +218,13 @@ public class PlayingStage : Stage
             { 
                 if (prop.DrumInputType == inputEvent.Type)
                 {
-                    mDrumPad.OnHit(prop.DisplayTrackType);
                     inputEvent.Processed = true;
+                    mDrumPad.OnHit(prop.DisplayTrackType);
+                    MainScript.Instance.DrumSound.PlaySound(
+                        prop.ChipType,
+                        prop.MuteBeforeUtter,
+                        prop.MuteGroupType,
+                        1.0f);
                     break;
                 }
             }

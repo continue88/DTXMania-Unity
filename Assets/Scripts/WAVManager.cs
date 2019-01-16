@@ -91,7 +91,7 @@ public class WAVManager : MonoBehaviour
         var docoder = new bjxa.Decoder();
         var pcmData = docoder.Decode(data);
         var clip = AudioClip.Create(name,
-            pcmData.Length,
+            docoder.Samples,
             docoder.Channels,
             docoder.SampleRate,
             false);
