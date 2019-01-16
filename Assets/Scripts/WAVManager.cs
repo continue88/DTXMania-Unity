@@ -67,6 +67,12 @@ public class WAVManager : MonoBehaviour
         }
 
         var ext = Path.GetExtension(clipWWW.url).ToLower();
+
+        // load xa audio file from data.
+        if (ext == ".xa") return DecodeXaAudioData(
+            Path.GetFileNameWithoutExtension(clipWWW.url), 
+            clipWWW.bytes);
+
         var audioType = ext == ".wav" ? AudioType.WAV :
             ext == ".mp3" ? AudioType.MPEG :
             ext == ".ogg" ? AudioType.OGGVORBIS :
@@ -78,6 +84,19 @@ public class WAVManager : MonoBehaviour
             return null;
         }
         return audioClip;
+    }
+
+    AudioClip DecodeXaAudioData(string name, byte[] data)
+    {
+        var docoder = new bjxa.Decoder();
+        var pcmData = docoder.Decode(data);
+        var clip = AudioClip.Create(name,
+            pcmData.Length,
+            docoder.Channels,
+            docoder.SampleRate,
+            false);
+        clip.SetData(pcmData, 0);
+        return clip;
     }
 
     public void Sinup(int wavId, WWW clipWWW, bool loop)

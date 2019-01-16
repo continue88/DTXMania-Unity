@@ -123,8 +123,8 @@ Transform:
   m_Children:
   - {fileID: 224998447143416494}
   - {fileID: 4344186660071174}
-  - {fileID: 4953183410669484}
   - {fileID: 4353208400087752}
+  - {fileID: 4953183410669484}
   - {fileID: 4622058182534784}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -153,7 +153,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4085625866039384}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4622058182534784
 Transform:
@@ -179,7 +179,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4085625866039384}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &82626074768976980
 AudioSource:
@@ -369,8 +369,7 @@ MonoBehaviour:
   UsbMidiDriver: {fileID: 114078148168110604}
   MusicFolders:
   - E:\BaiduNetdiskDownload\DTXHD 2013 Full Song\DTXFiles
-  DtxFiles:
-  - /DTXFiles/1 Because i am a girl/ext.dtx
+  DtxFiles: []
   CheckExteranlFiles: 1
 --- !u!114 &114856861924499314
 MonoBehaviour:

@@ -183,4 +183,30 @@ public static class EditorTools
 
         return true;
     }
+
+    [MenuItem("DTXMania/TryDecodeXaAudio")]
+    static void TryLoadXaAudio()
+    {
+        var go = GameObject.Find("AudioSource");
+        if (!go) go = new GameObject("AudioSource", typeof(AudioSource));
+        var audioSource = go.GetComponent<AudioSource>();
+
+        var path = Application.streamingAssetsPath;
+        foreach (var file in Directory.GetFiles(path, "*.xa", SearchOption.AllDirectories))
+        {
+            Debug.Log("Decoding: " + file);
+            var docoder = new bjxa.Decoder();
+            var pcmData = docoder.Decode(File.ReadAllBytes(file));
+            var clip = AudioClip.Create(Path.GetFileNameWithoutExtension(file),
+                pcmData.Length,
+                docoder.Channels,
+                docoder.SampleRate,
+                false);
+            clip.SetData(pcmData, 0);
+
+            audioSource.clip = clip;
+            audioSource.Play();
+            break;
+        }
+    }
 }
