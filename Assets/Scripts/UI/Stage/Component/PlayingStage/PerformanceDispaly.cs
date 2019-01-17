@@ -41,6 +41,7 @@ public class PerformanceDispaly : Activity
             HitCount = GetComponent<Text>("MAXCOMBO/HitCount"),
             Percent = GetComponent<Text>("MAXCOMBO/Percent"),
         };
+        UpdateText(mCurrentGrade);
     }
 
     public override void Update()
@@ -68,6 +69,7 @@ public class PerformanceDispaly : Activity
                 hitNumber, 
                 grade.JudgeToHitPercent[typeNode.Key]);
         }
+        if (total == 0) total = 1; // incase exception.
         DrawTypeNode(mMaxComboNode, maxCombo, Mathf.RoundToInt(100 * maxCombo / total));
     }
 

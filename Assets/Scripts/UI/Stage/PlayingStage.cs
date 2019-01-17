@@ -7,12 +7,11 @@ public class PlayingStage : Stage
 {
     float mStartTime = 0;
     int mStartDrawNumber = 0;
-    Grade mGrade;
     DrumPad mDrumPad;
     ChipLight mChipLight;
     ResultTextColumn mResultTextColumn;
     PlayingSpeed mPlayingSpeed;
-    ChipDrawingList mChipDrawingList = new ChipDrawingList();
+    ChipDrawingList mChipDrawingList;
     Dictionary<Chip, ChipPlayingState> mChipPlayingState = new Dictionary<Chip, ChipPlayingState>();
 
     public const float hitJudgPosY = 600f;
@@ -22,8 +21,10 @@ public class PlayingStage : Stage
     {
         base.OnOpen();
 
-        mGrade = new Grade();
-        mGrade.ApplyScoreAndSetting(MainScript.Instance.PlayingScore, UserManager.Instance.LoggedOnUser);
+        mChipDrawingList = new ChipDrawingList(this);
+
+        var grade = MainScript.Instance.CurrentGrade = new Grade();
+        grade.ApplyScoreAndSetting(MainScript.Instance.PlayingScore, UserManager.Instance.LoggedOnUser);
 
         mDrumPad = AddChild(new DrumPad(this, FindChild("CenterPanel/DrumPad").gameObject));
         mChipLight = AddChild(new ChipLight(this, FindChild("ChipLight").gameObject));
@@ -31,9 +32,9 @@ public class PlayingStage : Stage
         mPlayingSpeed = AddChild(new PlayingSpeed(FindChild("PlayingSpeed").gameObject));
 
         AddChild(new ChipsPanel(this, FindChild("CenterPanel/ChipsPanel").gameObject));
-        AddChild(new PerformanceDispaly(mGrade, FindChild("LeftPanel/PerformanceDispaly").gameObject));
-        AddChild(new ComboDisplay(mGrade, FindChild("RightPanel/ComboDisplay").gameObject));
-        AddChild(new ScoreDisplay(mGrade, FindChild("LeftPanel/ScoreDisplay").gameObject));
+        AddChild(new PerformanceDispaly(grade, FindChild("LeftPanel/PerformanceDispaly").gameObject));
+        AddChild(new ComboDisplay(grade, FindChild("RightPanel/ComboDisplay").gameObject));
+        AddChild(new ScoreDisplay(grade, FindChild("LeftPanel/ScoreDisplay").gameObject));
         AddChild(new SongInfo(FindChild("SongInfo").gameObject));
 
         foreach (var chip in MainScript.Instance.PlayingScore.ChipList)
@@ -68,6 +69,12 @@ public class PlayingStage : Stage
     private void InitPlayingState()
     {
         mStartTime = Time.time;
+    }
+
+    public void OnPlayintFinished()
+    {
+        StageManager.Instance.Open<ResultStage>();
+        Close();
     }
 
     private void UpdateChipState()
@@ -202,7 +209,7 @@ public class PlayingStage : Stage
                     drumChipProperty.AutoPlayOFF_UserHitJudge,
                     drumChipProperty.AutoPlayOFF_UserHitHide,
                     utterTime);
-                mGrade.AddJudgementType(judgment);
+                MainScript.Instance.CurrentGrade.AddJudgementType(judgment);
             }
         }
 
@@ -251,7 +258,7 @@ public class PlayingStage : Stage
                 mChipLight.OnHit(drumChipProperty.DisplayTrackType);
             }
             mResultTextColumn.OnHit(drumChipProperty.DisplayTrackType, judgeType);
-            mGrade.AddHit(judgeType);
+            MainScript.Instance.CurrentGrade.AddHit(judgeType);
         }
         if (hide)
         {

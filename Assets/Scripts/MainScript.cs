@@ -17,6 +17,7 @@ public class MainScript : MonoBehaviour
 
     public MusicTree MusicTree { get; } = new MusicTree();
     public Score PlayingScore { get; set; } = null;
+    public Grade CurrentGrade { get; set; } = null;
     public float InterpSpeed { get; private set; } = 1.0f;
 
     private void Awake()

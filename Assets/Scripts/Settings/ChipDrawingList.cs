@@ -13,11 +13,21 @@ public struct ChipDrawingInfo
 
 public class ChipDrawingList : List<ChipDrawingInfo>
 {
+    private PlayingStage mPlayingStage;
     private int mStartDrawNumber = 0;
+
     public const float hitJudgPosY = 600f;
+
+    public ChipDrawingList(PlayingStage playingStage)
+    {
+        mPlayingStage = playingStage;
+    }
 
     public void Update(Score score, float playingTime, float speed)
     {
+        // finished.
+        if (mStartDrawNumber < 0) return;
+
         Clear();
 
         for (var i = mStartDrawNumber; i >= 0 && i < score.ChipList.Count; i++)
@@ -34,7 +44,15 @@ public class ChipDrawingList : List<ChipDrawingInfo>
 
             // move forward.
             if (pixelDistance > 0 && i == mStartDrawNumber)
+            {
                 mStartDrawNumber++;
+
+                if (mStartDrawNumber >= score.ChipList.Count)
+                {
+                    mStartDrawNumber = -1;
+                    mPlayingStage.OnPlayintFinished();
+                }
+            }
 
             Add(new ChipDrawingInfo
             {
