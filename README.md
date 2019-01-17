@@ -1,6 +1,6 @@
 # DTXMania-Unity
 
-Here is DTXMania made by Unity 2018.2.14f1. 
+Here is DTXMania made by Unity 2018.2.14f1.  All resources are from [DTXMania2]
 
 ## howto add dtx files to play:
  * you can add DTX files to [Assets/StreamingAssets], then click the menu [DTXMania/AutoBuildStreamingPath], you can make the song build-in with the package.
