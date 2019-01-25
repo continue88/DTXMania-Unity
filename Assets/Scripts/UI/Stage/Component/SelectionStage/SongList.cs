@@ -146,7 +146,7 @@ public class SongList : Activity
         songItem.gameObject.SetActive(true);
 
         // setup title text.
-        songItem.Find("TextTitle").GetComponent<Text>().text = node.Title;
+        songItem.Find("TextTitle").GetComponent<Text>().text = string.IsNullOrEmpty(node.Title) ? "(No title)" : node.Title;
         songItem.Find("TextSubTitle").GetComponent<Text>().text = node.SubTitle;
 
         // setup image thumbnail.

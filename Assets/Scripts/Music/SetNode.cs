@@ -28,6 +28,9 @@ public class SetNode : Node
                 MusicNodes[i] = new MusicNode(fullPath, this);
                 Difficulty[i].Label = block.Label[i];
                 ChildNodeList.Add(this.MusicNodes[i]);
+
+                if (string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(MusicNodes[i].Title))
+                    Title = MusicNodes[i].Title;
             }
             catch (System.Exception ex)
             {

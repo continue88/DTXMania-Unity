@@ -11,7 +11,7 @@ public class Node
     public DifficultyLabel[] Difficulty { get; } = new DifficultyLabel[5];
     public string PreviewImagePath { get; protected set; }
     public string PreviewAudioPath { get; protected set; }
-    public string Title { get; protected set; } = "(no title)";
+    public string Title { get; protected set; } = "";
     public string SubTitle { get; protected set; }
     public virtual Sprite PreviewSprite { get { return mPreviewSprite; } }
 

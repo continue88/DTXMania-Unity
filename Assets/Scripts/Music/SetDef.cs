@@ -17,7 +17,7 @@ public class SetDef
 
         public Block()
         {
-            Title = "(no title)";
+            Title = "";
             File = new string[5];
             FontColor = Color.white;
             Genre = "";
