@@ -14,7 +14,7 @@ public class SongInfo : Activity
     {
         base.OnOpen();
 
-        var playingNode = MainScript.Instance.MusicTree.FocusNode as MusicNode;
+        var playingNode = MainScript.Instance.MusicTree.FocusNode;
 
         var previewImage = GetComponent<Image>("Preview");
         var previewSprite = playingNode.PreviewSprite;

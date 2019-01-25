@@ -49,6 +49,12 @@ public class SetNode : Node
         }
     }
 
+    public MusicNode GetSelectMusicNode()
+    {
+        var musicTree = MainScript.Instance.MusicTree;
+        return MusicNodes[musicTree.GetClosestDifficultyLevel(this)];
+    }
+
     public override Sprite PreviewSprite
     {
         get

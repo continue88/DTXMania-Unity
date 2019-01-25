@@ -25,33 +25,53 @@ public class SelectionStage : Stage
     void UpdateInput()
     {
         if (InputManager.Instance.HasMoveUp())
-            MainScript.Instance.MusicTree.FocusPreviousNode();
+            mSongList.SelectPrevious();
 
         if (InputManager.Instance.HasMoveDown())
-            MainScript.Instance.MusicTree.FocusNextNode();
+            mSongList.SelectNext();
 
         if (InputManager.Instance.HasOk())
         {
             var focusNode = MainScript.Instance.MusicTree.FocusNode;
-            if (focusNode is MusicNode)
-            {
-                // stop the previous audio sound.
-                MainScript.Instance.WAVManager.Stop();
-
-                // start fading to the song load stage.
-                var musicNode = focusNode as MusicNode;
-                MainScript.Instance.PlayingScore = musicNode.Score;
-                SwitchManager.Instance.Open<ReadyPlayGo>().OnSwitchMiddleClosed = () =>
-                {
-                    StageManager.Instance.Open<SongLoadStage>();
-                    Close();
-                };
-            }
+            if (focusNode is BoxNode)
+                mSongList.IntoBox();
+            else if (focusNode is BackNode)
+                mSongList.OutofBox();
+            else if (focusNode != null)
+                PlayingMusicNode(focusNode);
         }
+
         if (InputManager.Instance.HasCancle())
         {
-            StageManager.Instance.Open<LoginStage>();
-            Close();
+            var focusNode = MainScript.Instance.MusicTree.FocusNode;
+            if (focusNode != null && focusNode.Parent != MainScript.Instance.MusicTree.Root)
+                mSongList.OutofBox();
+            else
+            {
+                StageManager.Instance.Open<LoginStage>();
+                Close();
+            }
         }
+    }
+
+    void PlayingMusicNode(Node focusNode)
+    {
+        // stop the previous audio sound.
+        MainScript.Instance.WAVManager.Stop();
+
+        // start fading to the song load stage.
+        if (focusNode is MusicNode)
+            MainScript.Instance.PlayingScore = ((MusicNode)focusNode).Score;
+        else if (focusNode is SetNode)
+        {
+            var setNode = focusNode as SetNode;
+            MainScript.Instance.PlayingScore = setNode.GetSelectMusicNode().Score;
+        }
+
+        SwitchManager.Instance.Open<ReadyPlayGo>().OnSwitchMiddleClosed = () =>
+        {
+            StageManager.Instance.Open<SongLoadStage>();
+            Close();
+        };
     }
 }

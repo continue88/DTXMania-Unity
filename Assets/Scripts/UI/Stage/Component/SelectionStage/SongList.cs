@@ -98,7 +98,6 @@ public class SongList : Activity
     {
         RefreshSongList();
 
-        mMoveDown = e.DeselectNode == e.SelectedNode.PreNode;
         mUIAnimation?.ResetToBeginning();
         mUIAnimation?.PlayForward();
     }
@@ -151,5 +150,29 @@ public class SongList : Activity
 
         // setup image thumbnail.
         songItem.Find("ImageThumbnail").GetComponent<Image>().sprite = node.PreviewSprite ?? mDefaultSprite;
+    }
+
+    public void SelectPrevious()
+    {
+        mMoveDown = false;
+        MainScript.Instance.MusicTree.FocusPreviousNode();
+    }
+
+    public void SelectNext()
+    {
+        mMoveDown = true;
+        MainScript.Instance.MusicTree.FocusNextNode();
+    }
+
+    public void IntoBox()
+    {
+        var musicTree = MainScript.Instance.MusicTree;
+        musicTree.FocusOn(musicTree.FocusNode.ChildNodeList[0]);
+    }
+
+    public void OutofBox()
+    {
+        var musicTree = MainScript.Instance.MusicTree;
+        musicTree.FocusOn(musicTree.FocusNode.Parent);
     }
 }

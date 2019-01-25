@@ -21,9 +21,6 @@ public class InputDelegate : MonoBehaviour
 
     public void ManualyInputKey(DrumInputType drumInputType)
     {
-        InputManager.Instance.EnqueueDrumInputEvent(new InputManager.DrumInputEvent
-        {
-            Type = drumInputType
-        });
+        InputManager.Instance.EnqueueDrumInputEvent(InputManager.DrumInputEvent.New(0, 0, drumInputType));
     }
 }

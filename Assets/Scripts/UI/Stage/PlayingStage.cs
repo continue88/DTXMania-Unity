@@ -40,6 +40,9 @@ public class PlayingStage : Stage
         foreach (var chip in MainScript.Instance.PlayingScore.ChipList)
             mChipPlayingState.Add(chip, new ChipPlayingState(chip));
 
+        // enable the drum key checking...
+        InputManager.Instance.EnableDrumKeyChecking = true;
+
         InitPlayingState();
     }
 
@@ -58,7 +61,12 @@ public class PlayingStage : Stage
     public override void OnClose()
     {
         base.OnClose();
+
+        // stop the wave clips.
         MainScript.Instance.WAVManager.Clear();
+
+        // disable the drum key checking...
+        InputManager.Instance.EnableDrumKeyChecking = false;
     }
 
     public float GetElapsedTimeForStartPlaying()

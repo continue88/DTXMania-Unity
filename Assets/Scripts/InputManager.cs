@@ -11,6 +11,7 @@ public class InputManager
     KeyBindings mKeyBindings = new KeyBindings();
     List<DrumInputEvent> mDrumInputEvents = new List<DrumInputEvent>();
 
+    public bool EnableDrumKeyChecking { get; set; } = false;
     public IReadOnlyList<DrumInputEvent> DrumInputEvents => mDrumInputEvents;
     public IReadOnlyDictionary<KeyBindings.IdKey, DrumInputType> KeyboardToDrum => mKeyBindings.KeyboardToDrum;
     public IReadOnlyDictionary<KeyBindings.IdKey, DrumInputType> MIDItoDrum => mKeyBindings.MIDItoDrum;
@@ -21,6 +22,24 @@ public class InputManager
         public int Key;
         public DrumInputType Type;
         public bool Processed = false;
+
+        private DrumInputEvent() { }
+        private static Stack<DrumInputEvent> msPool = new Stack<DrumInputEvent>();
+        public static DrumInputEvent New(int deviceId, int key, DrumInputType type)
+        {
+            var instance = msPool.Count > 0 ?
+                msPool.Pop() :
+                new DrumInputEvent();
+            instance.DeviceID = deviceId;
+            instance.Key = key;
+            instance.Type = type;
+            instance.Processed = false;
+            return instance;
+        }
+        public static void Delete(DrumInputEvent instance)
+        {
+            msPool.Push(instance);
+        }
     }
 
     public bool HasOk(bool checkDrumInput = true)
@@ -101,13 +120,21 @@ public class InputManager
 
     void PollAllInputDevices()
     {
-        mDrumInputEvents.Clear();
+        if (mDrumInputEvents.Count > 0)
+        {
+            foreach (var item in mDrumInputEvents)
+                DrumInputEvent.Delete(item);
+            mDrumInputEvents.Clear();
+        }
 
         // check for the keyboard messages.
-        foreach (var idKey in mKeyBindings.KeyboardToDrum)
+        if (EnableDrumKeyChecking)
         {
-            if (Input.GetKeyDown((KeyCode)idKey.Key.Key))
-                mDrumInputEvents.Add(new DrumInputEvent { DeviceID = idKey.Key.DeviceId, Key = idKey.Key.Key, Type = idKey.Value });
+            foreach (var idKey in mKeyBindings.KeyboardToDrum)
+            {
+                if (Input.GetKeyDown((KeyCode)idKey.Key.Key))
+                    mDrumInputEvents.Add(DrumInputEvent.New(idKey.Key.DeviceId, idKey.Key.Key, idKey.Value));
+            }
         }
 
         // check for the midi input device.
@@ -117,7 +144,7 @@ public class InputManager
             foreach (var idKey in mKeyBindings.MIDItoDrum)
             {
                 if (idKey.Key.DeviceId == 0 && midiDriver.GetMidiNoteOn(idKey.Key.Key))
-                    mDrumInputEvents.Add(new DrumInputEvent { DeviceID = idKey.Key.DeviceId, Key = idKey.Key.Key, Type = idKey.Value });
+                    mDrumInputEvents.Add(DrumInputEvent.New(idKey.Key.DeviceId, idKey.Key.Key, idKey.Value));
             }
         }
     }
