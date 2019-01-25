@@ -36,20 +36,4 @@ public class MusicNode : Node
         if (!string.IsNullOrEmpty(Score.PreviewAudio))
             PreviewAudioPath = path + Score.PreviewAudio;
     }
-
-    public void OnLoadPreviewImage(WWW www)
-    {
-        if (string.IsNullOrEmpty(www.error))
-        {
-            var loadedTextue = www.textureNonReadable;
-            if (loadedTextue)
-                PreviewSprite = Sprite.Create(loadedTextue, new Rect(0, 0, loadedTextue.width, loadedTextue.height), new Vector2(0.5f, 0.5f));
-            else
-                Debug.LogError("The previou image not a valid texture: " + www.url);
-        }
-        else
-        {
-            Debug.LogError("Fail to load preview image from: " + www.url);
-        }
-    }
 }

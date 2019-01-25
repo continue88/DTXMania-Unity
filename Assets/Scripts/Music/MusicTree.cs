@@ -9,6 +9,7 @@ public class MusicTree
 {
     public readonly static string[] SearchExtensions = { ".sstf", ".dtx", ".gda", ".g2d", "bms", "bme" };
 
+    public int DifficultyLevel { get; private set; }
     public RootNode Root { get; } = new RootNode();
     public Node FocusNode => FocusList?.SelectedItem;
     public SelectableList<Node> FocusList { get; private set; } = null;
@@ -21,27 +22,78 @@ public class MusicTree
         public Node DeselectNode;
     }
 
-    /// <summary>
-    /// load a music node.
-    /// </summary>
-    /// <param name="file"></param>
-    /// <param name="parentNode"></param>
-    /// <returns></returns>
-    public MusicNode LoadMusicNode(string file, Node parentNode = null)
+    public void SearchAndAddToParentNode(Node parentNode, string folder, Action<string> onFileDetected = null)
     {
-        if (parentNode == null)
-            parentNode = Root;
+        if (!Directory.Exists(folder)) return;
 
-        try
+        var dirInfo = new DirectoryInfo(folder);
+        var setDefPath = Path.Combine(folder, @"set.def");
+        if (File.Exists(setDefPath))
         {
-            var music = new MusicNode(file, parentNode);
-            parentNode.ChildNodeList.Add(music);
-            return music;
+            onFileDetected?.Invoke(setDefPath);
+
+            var setDef = SetDef.RestoreFrom(setDefPath);
+            foreach (var block in setDef.Blocks)
+            {
+                var setNode = new SetNode(block, folder, parentNode);
+
+                if (0 < setNode.ChildNodeList.Count) 
+                    parentNode.ChildNodeList.Add(setNode);
+            }
+            return;
         }
-        catch
+        else
         {
-            Debug.LogError("Fail to load music file: " + file);
-            return null;
+            //----------------
+            var fileInfos = dirInfo.GetFiles("*.*", SearchOption.TopDirectoryOnly)
+                .Where((fileInfo) => SearchExtensions.Any(ext => (Path.GetExtension(fileInfo.Name).ToLower() == ext)));
+            var anyDtxFile = false;
+            foreach (var fileInfo in fileInfos)
+            {
+                var vpath = fileInfo.FullName;
+                onFileDetected?.Invoke(vpath);
+
+                try
+                {
+                    var music = new MusicNode(vpath, parentNode);
+                    parentNode.ChildNodeList.Add(music);
+                    anyDtxFile = true;
+                }
+                catch
+                {
+                }
+            }
+            if (anyDtxFile) return;
+        }
+
+        foreach (var subDirInfo in dirInfo.GetDirectories())
+        {
+            var DTXFILES = "dtxfiles.";
+            var boxDefPath = Path.Combine(subDirInfo.FullName, @"box.def");
+            if (subDirInfo.Name.ToLower().StartsWith(DTXFILES))
+            {
+                var boxNode = new BoxNode(subDirInfo.Name.Substring(DTXFILES.Length), parentNode);
+                parentNode.ChildNodeList.Add(boxNode);
+
+                var backNode = new BackNode(boxNode);
+                boxNode.ChildNodeList.Add(backNode);
+
+                SearchAndAddToParentNode(boxNode, subDirInfo.FullName, onFileDetected);
+            }
+            else if (File.Exists(boxDefPath))
+            {
+                var boxNode = new BoxNode(boxDefPath, parentNode);
+                parentNode.ChildNodeList.Add(boxNode);
+
+                var backNode = new BackNode(boxNode);
+                boxNode.ChildNodeList.Add(backNode);
+
+                SearchAndAddToParentNode(boxNode, subDirInfo.FullName, onFileDetected);
+            }
+            else
+            {
+                SearchAndAddToParentNode(parentNode, subDirInfo.FullName, onFileDetected);
+            }
         }
     }
 
@@ -137,5 +189,19 @@ public class MusicTree
         var index = FocusList.SelectedIndex;
         index = (index - 1 + this.FocusList.Count) % FocusList.Count;
         FocusList.SelectItem(index);
+    }
+
+    public void IncreaseDifficulty()
+    {
+        for (int i = 0; i < 5; i++)   // 最大でも5回まで
+        {
+            DifficultyLevel = (DifficultyLevel + 1) % 5;
+
+            if (FocusNode is SetNode)
+            {
+                //if (null != setnode.MusicNodes[this.mDifficultyLevel])
+                //    return; // その難易度に対応する曲ノードがあればOK。
+            }
+        }
     }
 }

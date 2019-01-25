@@ -4,14 +4,26 @@ using UnityEngine;
 
 public class Node
 {
-    public Node Parent { get; set; } = null;
+    public Node Parent { get; protected set; } = null;
     public SelectableList<Node> ChildNodeList { get; } = new SelectableList<Node>();
-
+    public DifficultyLabel[] Difficulty { get; } = new DifficultyLabel[5];
     public string PreviewImagePath { get; protected set; } = "";
     public string PreviewAudioPath { get; protected set; } = "";
     public Sprite PreviewSprite { get; protected set; }
     public string Title { get; protected set; } = "(no title)";
     public string SubTitle { get; protected set; }
+
+    public class DifficultyLabel
+    {
+        public string Label;
+        public float Level; // 0-9.99
+    }
+
+    public Node()
+    {
+        for (var i = 0; i < Difficulty.Length; i++)
+            Difficulty[i] = new DifficultyLabel { Label = "", Level = 0.00f };
+    }
 
     public void PlayPreviewAudio()
     {
@@ -24,6 +36,7 @@ public class Node
     {
 
     }
+
 
     public Node PreNode
     {
@@ -44,6 +57,22 @@ public class Node
             index = index + 1;
             if (Parent.ChildNodeList.Count <= index) index = 0;
             return Parent.ChildNodeList[index];
+        }
+    }
+
+    public void OnLoadPreviewImage(WWW www)
+    {
+        if (string.IsNullOrEmpty(www.error))
+        {
+            var loadedTextue = www.textureNonReadable;
+            if (loadedTextue)
+                PreviewSprite = Sprite.Create(loadedTextue, new Rect(0, 0, loadedTextue.width, loadedTextue.height), new Vector2(0.5f, 0.5f));
+            else
+                Debug.LogError("The previou image not a valid texture: " + www.url);
+        }
+        else
+        {
+            Debug.LogError("Fail to load preview image from: " + www.url);
         }
     }
 }

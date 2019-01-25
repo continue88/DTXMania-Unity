@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +19,7 @@ public class LaunchStage : Stage
         StartCoroutine(DelayOpen());
     }
 
-    private static string GetExternalFilesDir()
+    private static List<string> GetExternalFilesDir()
     {
 #if !UNITY_EDITOR && UNITY_ANDROID
         using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
@@ -26,28 +27,16 @@ public class LaunchStage : Stage
         {
             // Get all available external file directories (emulated and sdCards)
             var externalFilesDirectories = context.Call<AndroidJavaObject[]>("getExternalFilesDirs", null);
-            AndroidJavaObject emulated = null;
-            AndroidJavaObject sdCard = null;
+            var externDirs = new List<string>();
             for (var i = 0; i < externalFilesDirectories.Length; i++)
             {
                 var directory = externalFilesDirectories[i];
-                using (var environment = new AndroidJavaClass("android.os.Environment"))
-                {
-                    // Check which one is the emulated and which the sdCard.
-                    var isRemovable = environment.CallStatic<bool>("isExternalStorageRemovable", directory);
-                    var isEmulated = environment.CallStatic<bool>("isExternalStorageEmulated", directory);
-                    if (isEmulated) emulated = directory;
-                    else if (isRemovable && isEmulated == false) sdCard = directory;
-                }
+                externDirs.Add(directory.Call<string>("getAbsolutePath"));
             }
-            // Return the sdCard if available
-            if (sdCard != null)
-                return sdCard.Call<string>("getAbsolutePath");
-            else
-                return emulated.Call<string>("getAbsolutePath");
+            return externDirs;
         }
 #else
-        return "";
+        return null;
 #endif
     }
 
@@ -57,67 +46,75 @@ public class LaunchStage : Stage
     /// <returns></returns>
     IEnumerator DelayOpen()
     {
-        yield return new WaitForSeconds(0.2f);
+        // wait for next frame, show the correct UI scene?
+        yield return new WaitForEndOfFrame();
 
-        // get all the music folder.s
+        // get all the music folder. (add external storage)
         var musicFolders = new List<string>(MainScript.Instance.MusicFolders);
-        var externalFolder = GetExternalFilesDir();
-        if (!string.IsNullOrEmpty(externalFolder))
-        {
-            Debug.Log("externalFolder=" + externalFolder);
-            musicFolders.Add(externalFolder);
+        var externalDirs = GetExternalFilesDir();
+        if (externalDirs != null && externalDirs.Count > 0)
+            musicFolders.AddRange(externalDirs);
 
-            if (externalFolder.Contains("Android"))
+        // search the folders.
+        var loadedFiles = 0;
+        if (musicFolders.Count > 0)
+        {
+            var thread = new Thread(obj =>
             {
-                var baseDir = externalFolder.Substring(0, externalFolder.IndexOf("Android"));
-                var checkDir = baseDir + "DTXFiles";
-                if (Directory.Exists(checkDir))
-                {
-                    Debug.Log("Find DTXFiles:" + checkDir);
-                    musicFolders.Add(checkDir);
-                }
+                var dirs = obj as List<string>;
+                var musicTree = MainScript.Instance.MusicTree;
+                foreach (var dir in dirs)
+                    musicTree.SearchAndAddToParentNode(musicTree.Root, dir, file => loadedFiles++);
+            });
+            thread.Start(musicFolders);
+            while (thread.IsAlive)
+            {
+                mTextCount.text = loadedFiles.ToString();
+                yield return new WaitForEndOfFrame();
             }
         }
 
-        var totalLoaded = 0;
-        var streamPath = Application.streamingAssetsPath;
-        var dtxFiles = new List<string>(MainScript.Instance.DtxFiles.Select(musicFile => streamPath + musicFile));
-        foreach (var folder in musicFolders)
+        // load the build-in dtx files in streamingAssetsPath.
+        foreach (var dtxFile in MainScript.Instance.DtxFiles)
         {
-            if (!Directory.Exists(folder)) continue;
-
-            foreach (var ext in MusicTree.SearchExtensions)
-            {
-                foreach (var file in Directory.GetFiles(folder, "*" + ext, SearchOption.AllDirectories))
-                {
-                    var dtxPath = file;
-                    dtxFiles.Add("file://" + dtxPath);
-                }
-            }
-        }
-
-        // load dtx files in the streaming asset path.
-        foreach (var dtxPath in dtxFiles)
-        {
-            using (var www = new WWW(dtxPath))
+            using (var www = new WWW(Application.streamingAssetsPath + dtxFile))
             {
                 yield return www;
 
                 var musicNode = MainScript.Instance.MusicTree.LoadMusicNode(www);
                 if (musicNode == null) continue;
 
-                totalLoaded++;
-                mTextCount.text = string.Format("{0}/{1}", totalLoaded, dtxFiles.Count);
+                loadedFiles++;
+                mTextCount.text = loadedFiles.ToString();
+            }
+        }
 
-                // try to delay load the preview image.
-                if (!string.IsNullOrEmpty(musicNode.PreviewImagePath))
+        // load all the preview images.
+        var nodeQueue = new Queue<Node>();
+        var previewLoaded = 0;
+        nodeQueue.Enqueue(MainScript.Instance.MusicTree.Root);
+        while (nodeQueue.Count > 0)
+        {
+            var node = nodeQueue.Dequeue();
+            for (var i = 0; i < node.ChildNodeList.Count; i++)
+            {
+                var childNode = node.ChildNodeList[i];
+                if (childNode.ChildNodeList.Count > 0)
+                    nodeQueue.Enqueue(childNode);
+
+                var preImagePath = childNode.PreviewImagePath;
+                if (string.IsNullOrEmpty(preImagePath) ||
+                    childNode.PreviewSprite) continue;
+
+                if (preImagePath.StartsWith("/")) preImagePath = "file://" + preImagePath;
+                using (var www = new WWW(preImagePath))
                 {
-                    using (var www1 = new WWW(musicNode.PreviewImagePath))
-                    {
-                        yield return www1;
-                        musicNode.OnLoadPreviewImage(www1);
-                    }
+                    yield return www;
+                    childNode.OnLoadPreviewImage(www);
                 }
+
+                previewLoaded++;
+                mTextCount.text = previewLoaded.ToString();
             }
         }
 
