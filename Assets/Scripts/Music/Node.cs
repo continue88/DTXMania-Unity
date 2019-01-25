@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class Node
 {
+    protected Sprite mPreviewSprite;
+
     public Node Parent { get; protected set; } = null;
     public SelectableList<Node> ChildNodeList { get; } = new SelectableList<Node>();
     public DifficultyLabel[] Difficulty { get; } = new DifficultyLabel[5];
-    public string PreviewImagePath { get; protected set; } = "";
-    public string PreviewAudioPath { get; protected set; } = "";
-    public Sprite PreviewSprite { get; protected set; }
+    public string PreviewImagePath { get; protected set; }
+    public string PreviewAudioPath { get; protected set; }
     public string Title { get; protected set; } = "(no title)";
     public string SubTitle { get; protected set; }
+    public virtual Sprite PreviewSprite { get { return mPreviewSprite; } }
 
     public class DifficultyLabel
     {
@@ -66,7 +68,7 @@ public class Node
         {
             var loadedTextue = www.textureNonReadable;
             if (loadedTextue)
-                PreviewSprite = Sprite.Create(loadedTextue, new Rect(0, 0, loadedTextue.width, loadedTextue.height), new Vector2(0.5f, 0.5f));
+                mPreviewSprite = Sprite.Create(loadedTextue, new Rect(0, 0, loadedTextue.width, loadedTextue.height), new Vector2(0.5f, 0.5f));
             else
                 Debug.LogError("The previou image not a valid texture: " + www.url);
         }

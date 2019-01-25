@@ -31,7 +31,10 @@ public class LaunchStage : Stage
             for (var i = 0; i < externalFilesDirectories.Length; i++)
             {
                 var directory = externalFilesDirectories[i];
-                externDirs.Add(directory.Call<string>("getAbsolutePath"));
+                var absolutePath = directory.Call<string>("getAbsolutePath");
+                var dtxFilesPath = Path.Combine(absolutePath, "DTXFiles");
+                if (Directory.Exists(dtxFilesPath))
+                    externDirs.Add(dtxFilesPath);
             }
             return externDirs;
         }
@@ -102,19 +105,38 @@ public class LaunchStage : Stage
                 if (childNode.ChildNodeList.Count > 0)
                     nodeQueue.Enqueue(childNode);
 
+                // load the preview image.
                 var preImagePath = childNode.PreviewImagePath;
-                if (string.IsNullOrEmpty(preImagePath) ||
-                    childNode.PreviewSprite) continue;
-
-                if (preImagePath.StartsWith("/")) preImagePath = "file://" + preImagePath;
-                using (var www = new WWW(preImagePath))
+                if (!string.IsNullOrEmpty(preImagePath) && !childNode.PreviewSprite)
                 {
-                    yield return www;
-                    childNode.OnLoadPreviewImage(www);
+                    if (preImagePath.StartsWith("/")) preImagePath = "file://" + preImagePath;
+                    using (var www = new WWW(preImagePath))
+                    {
+                        yield return www;
+                        childNode.OnLoadPreviewImage(www);
+
+                        previewLoaded++;
+                        mTextCount.text = previewLoaded.ToString();
+                    }
                 }
 
-                previewLoaded++;
-                mTextCount.text = previewLoaded.ToString();
+                // process set node.
+                if (childNode is SetNode)
+                {
+                    var setNode = childNode as SetNode;
+                    foreach (var musicNode in setNode.MusicNodes)
+                    {
+                        if (string.IsNullOrEmpty(musicNode?.PreviewImagePath)) continue;
+                        using (var www = new WWW(musicNode.PreviewImagePath))
+                        {
+                            yield return www;
+                            musicNode.OnLoadPreviewImage(www);
+
+                            previewLoaded++;
+                            mTextCount.text = previewLoaded.ToString();
+                        }
+                    }
+                }
             }
         }
 

@@ -5,14 +5,16 @@ using UnityEngine;
 
 public class SetNode : Node
 {
-    public MusicNode[] MusicNodes = new MusicNode[5];
+    private static readonly string[] ThumbnailNames = { "thumb.png", "thumb.bmp", "thumb.jpg", "thumb.jpeg" };
+
+    public MusicNode[] MusicNodes = new MusicNode[MusicTree.MaxDiffLevel];
 
     public SetNode(SetDef.Block block, string baseFolder, Node parentNode)
     {
         Title = block.Title;
         Parent = parentNode;
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < MusicNodes.Length; i++)
         {
             MusicNodes[i] = null;
             if (string.IsNullOrEmpty(block.File[i]))
@@ -20,16 +22,42 @@ public class SetNode : Node
 
             try
             {
-                MusicNodes[i] = new MusicNode(Path.Combine(baseFolder, block.File[i]), this);
+                var fullPath = Path.Combine(baseFolder, block.File[i]);
+                if (!File.Exists(fullPath)) continue;
+
+                MusicNodes[i] = new MusicNode(fullPath, this);
                 Difficulty[i].Label = block.Label[i];
                 ChildNodeList.Add(this.MusicNodes[i]);
             }
-            catch
+            catch (System.Exception ex)
             {
-                Debug.LogError("fail to load.");
+                Debug.LogError("fail to load. Exception:" + ex);
+            }
+        }
+
+        for (var i = 0; i < ThumbnailNames.Length; i++)
+        {
+            var fullPath = Path.Combine(baseFolder, ThumbnailNames[i]);
+            if (File.Exists(fullPath))
+            {
+                PreviewImagePath = fullPath;
+                break;
             }
         }
     }
 
-    private readonly string[] mThumbnailNames = { "thumb.png", "thumb.bmp", "thumb.jpg", "thumb.jpeg" };
+    public override Sprite PreviewSprite
+    {
+        get
+        {
+            var musicTree = MainScript.Instance.MusicTree;
+            var currentDiff = MusicNodes[musicTree.FocusDifficulty];
+            if (null != currentDiff?.PreviewSprite)
+                return currentDiff.PreviewSprite;
+
+            if (mPreviewSprite) return mPreviewSprite;
+
+            return MusicNodes[musicTree.GetClosestDifficultyLevel(this)].PreviewSprite;
+        }
+    }
 }

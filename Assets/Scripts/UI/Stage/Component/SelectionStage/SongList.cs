@@ -8,6 +8,7 @@ public class SongList : Activity
     int mCursorPos = 4;
     bool mMoveDown = true;
     RectTransform mItemTemplate;
+    Sprite mDefaultSprite;
     UIAnimation mUIAnimation = null;
 
     const int TotalSongItem = 10;
@@ -26,6 +27,7 @@ public class SongList : Activity
         // get the first song item template.
         mItemTemplate = Transform.Find("Content").GetChild(0) as RectTransform;
         mItemTemplate.gameObject.SetActive(false);
+        mDefaultSprite = mItemTemplate.Find("ImageThumbnail").GetComponent<Image>().sprite;
 
         // get the focuse node, select on if not presented.
         var musicTree = MainScript.Instance.MusicTree;
@@ -110,8 +112,8 @@ public class SongList : Activity
         var nodeToShow = musicTree.FocusNode;
         if (nodeToShow == null) return;
 
-        // try to play the preview audio.
-        MainScript.Instance.WAVManager.PlaySound(nodeToShow.PreviewAudioPath, true);
+        // preview audio.
+        var previewAudioPath = nodeToShow.PreviewAudioPath;
 
         for (var i = 0; i < mCursorPos; i++)
             nodeToShow = nodeToShow.PreNode;
@@ -122,6 +124,10 @@ public class SongList : Activity
             BuildSongItem(nodeToShow, i);
             nodeToShow = nodeToShow.NextNode;
         }
+
+        // try to play the preview audio.
+        if (!string.IsNullOrEmpty(previewAudioPath))
+            MainScript.Instance.WAVManager.PlaySound(previewAudioPath, true);
     }
 
     /// <summary>
@@ -144,7 +150,6 @@ public class SongList : Activity
         songItem.Find("TextSubTitle").GetComponent<Text>().text = node.SubTitle;
 
         // setup image thumbnail.
-        if (node.PreviewSprite)
-            songItem.Find("ImageThumbnail").GetComponent<Image>().sprite = node.PreviewSprite;
+        songItem.Find("ImageThumbnail").GetComponent<Image>().sprite = node.PreviewSprite ?? mDefaultSprite;
     }
 }

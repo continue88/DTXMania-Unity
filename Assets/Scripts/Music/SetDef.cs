@@ -17,11 +17,11 @@ public class SetDef
 
         public Block()
         {
-            this.Title = "(no title)";
-            this.File = new string[5];
-            this.FontColor = Color.white;
-            this.Genre = "";
-            this.Label = new string[5];
+            Title = "(no title)";
+            File = new string[5];
+            FontColor = Color.white;
+            Genre = "";
+            Label = new string[5];
         }
     }
 

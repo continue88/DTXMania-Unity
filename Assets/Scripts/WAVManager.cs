@@ -24,10 +24,12 @@ public class WAVManager : MonoBehaviour
         mWavInfoList.Clear();
     }
 
-    public void PlaySound(string soundUrl, bool loop = false)
+    public void PlaySound(string soundFilePath, bool loop = false)
     {
+        Debug.Log("PlaySound:" + soundFilePath);
+
         AudioClip audioClip;
-        if (mWaveCacheList.TryGetValue(soundUrl, out audioClip))
+        if (mWaveCacheList.TryGetValue(soundFilePath, out audioClip))
         {
             if (audioClip)
             {
@@ -38,7 +40,7 @@ public class WAVManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine(DelayLoadAudio(soundUrl, loop));
+            StartCoroutine(DelayLoadAudio(soundFilePath, loop));
         }
     }
 
@@ -47,14 +49,18 @@ public class WAVManager : MonoBehaviour
         AudioSource.Stop();
     }
 
-    IEnumerator DelayLoadAudio(string url, bool loop)
+    IEnumerator DelayLoadAudio(string filePath, bool loop)
     {
-        using (var clipWWW = new WWW(url))
+        // android file url.
+        var loadUrl = filePath;
+        if (loadUrl.StartsWith("/")) loadUrl = "file://";
+
+        using (var clipWWW = new WWW(loadUrl))
         {
             yield return clipWWW;
             var audioClip = GetAudioClipFromWWW(clipWWW);
-            mWaveCacheList[url] = audioClip; // if it is null, still set.
-            if (audioClip) PlaySound(url, loop);
+            mWaveCacheList[filePath] = audioClip; // if it is null, still set.
+            if (audioClip) PlaySound(filePath, loop);
         }
     }
 

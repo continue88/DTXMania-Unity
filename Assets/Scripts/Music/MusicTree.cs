@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -8,6 +6,7 @@ using UnityEngine;
 public class MusicTree
 {
     public readonly static string[] SearchExtensions = { ".sstf", ".dtx", ".gda", ".g2d", "bms", "bme" };
+    public const int MaxDiffLevel = 5;
 
     public int DifficultyLevel { get; private set; }
     public RootNode Root { get; } = new RootNode();
@@ -191,17 +190,58 @@ public class MusicTree
         FocusList.SelectItem(index);
     }
 
+    public int FocusDifficulty
+    {
+        get
+        {
+            if (FocusNode is MusicNode) return 3;
+            if (FocusNode is SetNode) return GetClosestDifficultyLevel(FocusNode as SetNode);
+            return 0;
+        }
+    }
+
+    /// <summary>
+    /// GetClosestDifficultyLevel
+    /// </summary>
+    /// <param name="setnode"></param>
+    /// <returns></returns>
+    public int GetClosestDifficultyLevel(SetNode setnode)
+    {
+        if (setnode == null) return DifficultyLevel;
+
+        if (setnode.MusicNodes[DifficultyLevel] != null) return DifficultyLevel;
+
+        var diffLevel = DifficultyLevel;
+        for (int i = 0; i < MaxDiffLevel; i++)
+        {
+            if (setnode.MusicNodes[diffLevel] != null) break;
+            diffLevel = (diffLevel + 1) % MaxDiffLevel;
+        }
+
+        if (diffLevel < DifficultyLevel)
+        {
+            diffLevel = DifficultyLevel;
+            for (int i = 0; i < MaxDiffLevel; i++)
+            {
+                if (setnode.MusicNodes[diffLevel] != null) break;
+                diffLevel = ((diffLevel - 1) + MaxDiffLevel) % MaxDiffLevel;
+            }
+        }
+        return diffLevel;
+    }
+
+    /// <summary>
+    /// IncreaseDifficulty
+    /// </summary>
     public void IncreaseDifficulty()
     {
-        for (int i = 0; i < 5; i++)   // 最大でも5回まで
+        for (int i = 0; i < MaxDiffLevel; i++)
         {
-            DifficultyLevel = (DifficultyLevel + 1) % 5;
+            DifficultyLevel = (DifficultyLevel + 1) % MaxDiffLevel;
 
-            if (FocusNode is SetNode)
-            {
-                //if (null != setnode.MusicNodes[this.mDifficultyLevel])
-                //    return; // その難易度に対応する曲ノードがあればOK。
-            }
+            if (FocusNode is SetNode &&
+                ((SetNode)FocusNode).MusicNodes[DifficultyLevel] != null)
+                break;
         }
     }
 }
