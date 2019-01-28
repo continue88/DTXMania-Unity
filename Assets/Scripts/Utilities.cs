@@ -23,4 +23,11 @@ public static class Utilities
             return false;
         }
     }
+
+    public static T GetComponent<T>(this Transform transform, string path) where T : Component
+    {
+        var child = transform.Find(path);
+        if (!child) return null;
+        return child.GetComponent<T>();
+    }
 }

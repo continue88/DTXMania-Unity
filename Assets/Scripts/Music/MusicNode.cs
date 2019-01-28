@@ -35,5 +35,7 @@ public class MusicNode : Node
 
         if (!string.IsNullOrEmpty(Score.PreviewAudio))
             PreviewAudioPath = path + Score.PreviewAudio;
+
+        Difficulty[3] = new DifficultyLabel { Label = "FREE", Level = (float)Score.Difficulty };
     }
 }

@@ -8,7 +8,7 @@ public class Node
 
     public Node Parent { get; protected set; } = null;
     public SelectableList<Node> ChildNodeList { get; } = new SelectableList<Node>();
-    public DifficultyLabel[] Difficulty { get; } = new DifficultyLabel[5];
+    public DifficultyLabel[] Difficulty { get; } = new DifficultyLabel[MusicTree.MaxDiffLevel];
     public string PreviewImagePath { get; protected set; }
     public string PreviewAudioPath { get; protected set; }
     public string Title { get; protected set; } = "";

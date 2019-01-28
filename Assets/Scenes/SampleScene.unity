@@ -234,6 +234,11 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 534669904}
+    - target: {fileID: 114776999521927556, guid: db90b10c52ee58c4ab04fdb2d83edf9d,
+        type: 2}
+      propertyPath: MusicFolders.Array.data[0]
+      value: "E:\\BaiduNetdiskDownload\\\u67B6\u5B50\u9F13\u97F3\u4E50\u6E38\u620F\\DTX\u6A21\u62DF\u5668\\DTXfile"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db90b10c52ee58c4ab04fdb2d83edf9d, type: 2}
   m_IsPrefabAsset: 0

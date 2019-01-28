@@ -50,9 +50,7 @@ public class Activity
 
     public T GetComponent<T>(string path) where T : Component
     {
-        var child = FindChild(path);
-        if (!child) return null;
-        return child.GetComponent<T>();
+        return Transform.GetComponent<T>(path);
     }
 
     protected T AddChild<T>(T childActivity, bool fireOnOpen = true) where T : Activity

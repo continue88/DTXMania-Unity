@@ -25,9 +25,12 @@ public class SetNode : Node
                 var fullPath = Path.Combine(baseFolder, block.File[i]);
                 if (!File.Exists(fullPath)) continue;
 
-                MusicNodes[i] = new MusicNode(fullPath, this);
+                var musicNode = new MusicNode(fullPath, this);
+                ChildNodeList.Add(musicNode);
+
                 Difficulty[i].Label = block.Label[i];
-                ChildNodeList.Add(this.MusicNodes[i]);
+                Difficulty[i].Level = (float)musicNode.Score.Difficulty;
+                MusicNodes[i] = musicNode;
 
                 if (string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(MusicNodes[i].Title))
                     Title = MusicNodes[i].Title;

@@ -13,6 +13,7 @@ public class SelectionStage : Stage
 
         mSongList = AddChild(new SongList(FindChild("SongList").gameObject));
         mPreviewImage = AddChild(new PreviewImage(FindChild("PreviewImage").gameObject));
+        AddChild(new DifficultyAndGrades(FindChild("DifficultyAndGrades").gameObject));
     }
 
     public override void Update()
